@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/map_card"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:clickable="true"
+    android:focusable="true">
+
+  <app.organicmaps.sdk.MapView
+      android:id="@+id/map_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:visibility="gone"
+      app:display_type="car" />
+
+  <!-- Shown until the map can be drawn: the first run is finished in the full app. -->
+  <ImageView
+      android:id="@+id/placeholder"
+      android:layout_width="96dp"
+      android:layout_height="96dp"
+      android:layout_gravity="center"
+      android:contentDescription="@string/app_name"
+      app:srcCompat="@drawable/ic_splash" />
+
+  <!-- The card only shows the map: a tap anywhere opens the full app. -->
+  <View
+      android:id="@+id/touch_overlay"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
+
+  <!-- Like the maps card of other car launchers: a search bar to pick a destination, plus bookmarks. -->
+  <LinearLayout
+      android:id="@+id/search_bar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top"
+      android:layout_margin="12dp"
+      android:gravity="center_vertical"
+      android:orientation="horizontal"
+      android:visibility="gone">
+
+    <LinearLayout
+        android:id="@+id/search"
+        android:layout_width="0dp"
+        android:layout_height="56dp"
+        android:layout_weight="1"
+        android:background="@drawable/bg_map_card_pill"
+        android:clickable="true"
+        android:elevation="4dp"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp">
+
+      <ImageView
+          android:layout_width="24dp"
+          android:layout_height="24dp"
+          android:importantForAccessibility="no"
+          app:srcCompat="@drawable/ic_search"
+          app:tint="?iconTint" />
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="12dp"
+          android:text="@string/search"
+          android:textAppearance="@style/MwmTextAppearance.Body1" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/bookmarks"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/bg_map_card_pill"
+        android:contentDescription="@string/bookmarks_and_tracks"
+        android:elevation="4dp"
+        app:srcCompat="@drawable/ic_bookmarks_and_tracks"
+        app:tint="?iconTint" />
+  </LinearLayout>
+
+  <!-- Replaces the search bar while navigating: next turn, distance to it, next street and arrival. -->
+  <LinearLayout
+      android:id="@+id/nav_banner"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="top"
+      android:layout_margin="12dp"
+      android:background="@drawable/bg_map_card_pill"
+      android:clickable="true"
+      android:elevation="4dp"
+      android:focusable="true"
+      android:gravity="center_vertical"
+      android:minHeight="72dp"
+      android:orientation="horizontal"
+      android:paddingHorizontal="16dp"
+      android:paddingVertical="8dp"
+      android:visibility="gone">
+
+    <ImageView
+        android:id="@+id/nav_turn"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:importantForAccessibility="no"
+        app:tint="?iconTint" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/nav_turn_distance"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textAppearance="@style/MwmTextAppearance.Headline" />
+
+      <TextView
+          android:id="@+id/nav_next_street"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:ellipsize="end"
+          android:maxLines="1"
+          android:textAppearance="@style/MwmTextAppearance.Body2" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:gravity="end"
+        android:orientation="vertical">
+
+      <TextView
+          android:id="@+id/nav_arrival"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textAppearance="@style/MwmTextAppearance.Body1" />
+
+      <TextView
+          android:id="@+id/nav_remaining"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textAppearance="@style/MwmTextAppearance.Body2" />
+    </LinearLayout>
+  </LinearLayout>
+
+</FrameLayout>

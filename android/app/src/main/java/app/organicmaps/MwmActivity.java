@@ -53,6 +53,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import app.organicmaps.api.Const;
+import app.organicmaps.automotive.Automotive;
 import app.organicmaps.base.BaseMwmFragmentActivity;
 import app.organicmaps.bookmarks.BookmarkCategoriesActivity;
 import app.organicmaps.downloader.DownloaderActivity;
@@ -141,6 +142,8 @@ public class MwmActivity extends BaseMwmFragmentActivity
   public static final String EXTRA_BOOKMARK_ID = "bookmark_id";
   public static final String EXTRA_TRACK_ID = "track_id";
   public static final String EXTRA_UPDATE_THEME = "update_theme";
+  // Opens the search, e.g. from the Android Automotive map card.
+  public static final String EXTRA_SHOW_SEARCH = "show_search";
   // Stored both in the saved instance state and, when the core restarts, in the intent itself.
   static final String EXTRA_CONSUMED = "mwm.extra.intent.processed";
   private boolean mIntentConsumed = false;
@@ -281,6 +284,18 @@ public class MwmActivity extends BaseMwmFragmentActivity
     else if (categoryId != -1)
     {
       BookmarkManager.INSTANCE.showBookmarkCategoryOnMap(categoryId);
+      return;
+    }
+
+    if (intent.getBooleanExtra(EXTRA_SHOW_SEARCH, false))
+    {
+      // Searching from the map card means picking a new destination: drop a route that is only being planned
+      // (not one being navigated), and open the search fully expanded, which focuses the query and shows the
+      // keyboard (SearchFragment activates its toolbar only in that state).
+      if (RoutingController.get().isPlanning())
+        RoutingController.get().cancel();
+      mSearchPageViewModel.setSearchPageLastState(BottomSheetBehavior.STATE_EXPANDED);
+      showSearch("");
       return;
     }
 
@@ -431,8 +446,25 @@ public class MwmActivity extends BaseMwmFragmentActivity
   }
 
   @Override
+  public void onDisplayChangedToDevice(@NonNull Runnable onTaskFinishedCallback)
+  {
+    // Only reached on Android Automotive OS: the map card released the map, see onStart().
+    mMapController.getView().setVisibility(View.VISIBLE);
+    mMapController.attachSurface();
+    onTaskFinishedCallback.run();
+    // An intent delivered while the card held the map was skipped by onNewIntent() (rendering not active then).
+    processIntent();
+  }
+
+  @Override
   public void onDisplayChangedToCar(@NonNull Runnable onTaskFinishedCallback)
   {
+    if (Automotive.isAutomotive(this))
+    {
+      // The launcher's map card is shown: keep this activity, just release the map.
+      Automotive.releaseMap(mMapController, onTaskFinishedCallback);
+      return;
+    }
     mRemoveDisplayListener = false;
     startActivity(new Intent(this, MapPlaceholderActivity.class));
     mMapController.setOnDestroyListener(onTaskFinishedCallback);
@@ -531,7 +563,9 @@ public class MwmActivity extends BaseMwmFragmentActivity
     mShareLauncher = SharingUtils.RegisterLauncher(this);
 
     mDisplayManager = MwmApplication.from(this).getDisplayManager();
-    if (mDisplayManager.isCarDisplayUsed())
+    // On Android Automotive OS the "car" display is the launcher's map card (see MapCardActivity): take the map
+    // back in onStart() instead of handing it to a projected screen.
+    if (mDisplayManager.isCarDisplayUsed() && !Automotive.isAutomotive(this))
     {
       mRemoveDisplayListener = false;
       startActivity(new Intent(this, MapPlaceholderActivity.class));
@@ -1040,6 +1074,12 @@ public class MwmActivity extends BaseMwmFragmentActivity
   {
     RoutingController.get().attach(this);
     super.onStart();
+
+    if (mDisplayManager.isCarDisplayUsed() && Automotive.isAutomotive(this))
+    {
+      mMapController.getView().setVisibility(View.GONE);
+      mDisplayManager.changeDisplay(DisplayType.Device);
+    }
 
     Framework.nativePlacePageActivationListener(this);
     BookmarkManager.INSTANCE.addLoadingListener(this);
