@@ -169,8 +169,12 @@
   <dimen name="car_spacing">24dp</dimen>
   <dimen name="car_corner_radius">24dp</dimen>
   <dimen name="car_nav_panel_width">440dp</dimen>
-  <dimen name="car_nav_turn_sign">88dp</dimen>
-  <dimen name="car_nav_lanes_height">76dp</dimen>
+  <!-- The map controls column along the start edge while navigating, the cards are right of it -->
+  <dimen name="car_controls_column_padding">12dp</dimen>
+  <!-- car_touch_target + 2 * car_controls_column_padding -->
+  <dimen name="car_controls_column_width">100dp</dimen>
+  <dimen name="car_nav_turn_sign">64dp</dimen>
+  <dimen name="car_nav_lanes_height">56dp</dimen>
   <dimen name="car_nav_numbers_min_width">120dp</dimen>
   <dimen name="car_place_icon_size">56dp</dimen>
   <!-- car_touch_target / 2 -->

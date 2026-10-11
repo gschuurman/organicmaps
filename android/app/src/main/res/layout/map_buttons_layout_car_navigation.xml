@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android Automotive OS, like Google Maps there: the turn card and the trip panel take the start side,
-     so all the map controls are along the end edge. -->
+<!-- Android Automotive OS, like Google Maps there: the map controls in a column along the start edge, the turn
+     card and the trip card right of it (layout_nav_car.xml). Search is kept low so that the search along the route
+     unfolds over the map, under the turn card. -->
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -17,34 +18,50 @@
     android:visibility="gone"
     tools:visibility="visible" />
   <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/map_buttons_inner_right"
+    android:id="@+id/map_buttons_inner_left"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:padding="@dimen/car_margin"
-    app:layout_constraintEnd_toEndOf="parent"
+    android:padding="@dimen/car_controls_column_padding"
+    app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/btn_bookmarks"
+      style="@style/MwmWidget.MapButton.Car"
+      android:contentDescription="@string/bookmarks"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/ic_bookmarks_and_tracks" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/track_recording_status"
+      style="@style/MwmWidget.MapButton.Car"
+      android:layout_marginTop="@dimen/car_spacing"
+      android:tint="@color/accent_color_selector"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/btn_bookmarks"
+      app:srcCompat="@drawable/ic_track_recording_status" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/btn_search"
       style="@style/MwmWidget.MapButton.Car"
+      android:layout_marginBottom="@dimen/car_spacing"
       android:contentDescription="@string/search"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintBottom_toTopOf="@+id/zoom_buttons_container"
+      app:layout_constraintStart_toStartOf="parent"
       app:srcCompat="@drawable/ic_search" />
-    <!-- Search along the route, unfolds towards the start from the search button -->
+    <!-- Search along the route, unfolds towards the end from the search button -->
     <LinearLayout
       android:id="@+id/search_frame"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
-      android:layout_marginEnd="@dimen/car_spacing"
+      android:layout_marginStart="@dimen/car_spacing"
       android:background="?searchLayoutBackground"
       android:orientation="horizontal"
       android:padding="@dimen/car_margin_half"
       android:theme="?navButtonsThemeRect"
       android:visibility="invisible"
       app:layout_constraintBottom_toBottomOf="@id/btn_search"
-      app:layout_constraintEnd_toStartOf="@id/btn_search"
+      app:layout_constraintStart_toEndOf="@id/btn_search"
       app:layout_constraintTop_toTopOf="@id/btn_search"
       tools:visibility="visible">
       <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -83,22 +100,6 @@
         android:contentDescription="@string/category_atm"
         app:srcCompat="@drawable/ic_routing_atm_on" />
     </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/btn_bookmarks"
-      style="@style/MwmWidget.MapButton.Car"
-      android:layout_marginTop="@dimen/car_spacing"
-      android:contentDescription="@string/bookmarks"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/btn_search"
-      app:srcCompat="@drawable/ic_bookmarks_and_tracks" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/track_recording_status"
-      style="@style/MwmWidget.MapButton.Car"
-      android:layout_marginTop="@dimen/car_spacing"
-      android:tint="@color/accent_color_selector"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/btn_bookmarks"
-      app:srcCompat="@drawable/ic_track_recording_status" />
     <LinearLayout
       android:id="@+id/zoom_buttons_container"
       android:layout_width="wrap_content"
@@ -106,7 +107,7 @@
       android:layout_marginBottom="@dimen/car_spacing"
       android:orientation="vertical"
       app:layout_constraintBottom_toTopOf="@+id/my_position"
-      app:layout_constraintEnd_toEndOf="parent">
+      app:layout_constraintStart_toStartOf="parent">
       <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/nav_zoom_in"
         style="@style/MwmWidget.MapButton.Car"
@@ -124,6 +125,6 @@
       style="@style/MwmWidget.MapButton.Car"
       android:contentDescription="@string/core_my_position"
       app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent" />
+      app:layout_constraintStart_toStartOf="parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -208,12 +208,12 @@
 
   <!-- On the accent coloured turn card -->
   <style name="MwmTextAppearance.Car.NavStreet">
-    <item name="android:textSize">@dimen/text_size_car_title</item>
+    <item name="android:textSize">@dimen/text_size_car_body</item>
     <item name="android:textColor">?android:textColorPrimaryInverse</item>
   </style>
 
   <style name="MwmTextAppearance.Car.NavNextTurn">
-    <item name="android:textSize">@dimen/text_size_car_display</item>
+    <item name="android:textSize">@dimen/text_size_car_title</item>
     <item name="android:fontFamily">@string/robotoMedium</item>
     <item name="android:textColor">?android:textColorPrimaryInverse</item>
   </style>
