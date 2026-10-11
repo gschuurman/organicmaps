@@ -32,6 +32,7 @@ public class CategoriesScreen extends BaseMapScreen
   private static final List<CategoryData> CATEGORIES =
       Arrays.asList(new CategoryData(R.string.category_fuel, R.drawable.ic_category_fuel),
                     new CategoryData(R.string.category_parking, R.drawable.ic_category_parking),
+                    new CategoryData(R.string.category_ev_charging, R.drawable.ic_category_ev_charging),
                     new CategoryData(R.string.category_eat, R.drawable.ic_category_eat),
                     new CategoryData(R.string.category_food, R.drawable.ic_category_food),
                     new CategoryData(R.string.category_hotel, R.drawable.ic_category_hotel),

@@ -53,6 +53,12 @@
         android:contentDescription="@string/category_fuel"
         app:srcCompat="@drawable/ic_routing_fuel_on" />
       <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/search_ev_charging"
+        style="@style/MwmWidget.MapButton.Car"
+        android:layout_marginStart="@dimen/car_spacing"
+        android:contentDescription="@string/category_ev_charging"
+        app:srcCompat="@drawable/ic_routing_ev_charging_on" />
+      <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/search_parking"
         style="@style/MwmWidget.MapButton.Car"
         android:layout_marginStart="@dimen/car_spacing"

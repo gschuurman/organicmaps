@@ -54,6 +54,8 @@ public class SearchWheel implements View.OnClickListener
   public enum SearchOption
   {
     FUEL(R.id.search_fuel, R.drawable.ic_routing_fuel_off, R.string.category_fuel),
+    // Only in the Android Automotive OS layout (map_buttons_layout_car_navigation.xml).
+    EV_CHARGING(R.id.search_ev_charging, R.drawable.ic_routing_ev_charging_off, R.string.category_ev_charging),
     PARKING(R.id.search_parking, R.drawable.ic_routing_parking_off, R.string.category_parking),
     EAT(R.id.search_eat, R.drawable.ic_routing_eat_off, R.string.category_eat),
     FOOD(R.id.search_food, R.drawable.ic_routing_food_off, R.string.category_food),
@@ -126,7 +128,12 @@ public class SearchWheel implements View.OnClickListener
       });
     }
     for (SearchOption searchOption : SearchOption.values())
-      mFrame.findViewById(searchOption.mResId).setOnClickListener(this);
+    {
+      // Not every layout has all the options.
+      final View option = mFrame.findViewById(searchOption.mResId);
+      if (option != null)
+        option.setOnClickListener(this);
+    }
     return true;
   }
 
@@ -199,7 +206,11 @@ public class SearchWheel implements View.OnClickListener
     if (initSearchLayout())
     {
       for (SearchOption searchOption : SearchOption.values())
-        UiUtils.visibleIf(mIsExpanded, mSearchLayout.findViewById(searchOption.mResId));
+      {
+        final View option = mSearchLayout.findViewById(searchOption.mResId);
+        if (option != null)
+          UiUtils.visibleIf(mIsExpanded, option);
+      }
 
       if (mTouchInterceptor != null)
         UiUtils.visibleIf(mIsExpanded, mSearchLayout, mTouchInterceptor);
@@ -233,8 +244,8 @@ public class SearchWheel implements View.OnClickListener
       onSearchButtonClick(v);
     else if (id == R.id.touch_interceptor)
       toggleSearchLayout();
-    else if (id == R.id.search_fuel || id == R.id.search_parking || id == R.id.search_eat || id == R.id.search_food
-             || id == R.id.search_atm)
+    else if (id == R.id.search_fuel || id == R.id.search_ev_charging || id == R.id.search_parking
+             || id == R.id.search_eat || id == R.id.search_food || id == R.id.search_atm)
       startSearch(SearchOption.fromResId(id));
   }
 
