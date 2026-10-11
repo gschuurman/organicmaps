@@ -112,6 +112,8 @@
     <string name="category_fuel">Karburant</string>
     <!-- Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! -->
     <string name="category_parking">Parkim</string>
+    <!-- Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! -->
+    <string name="category_ev_charging">Karikimi i automjeteve elektrike</string>
     <!-- Search category for malls/clothes/shoes/gifts/jewellery/sport shops; any changes should be duplicated in categories.txt @category_shopping! -->
     <string name="category_shopping">Pazari</string>
     <!-- Search category for second_hand/charity/antique/auction shops; any changes should be duplicated in categories.txt @category_secondhand! -->

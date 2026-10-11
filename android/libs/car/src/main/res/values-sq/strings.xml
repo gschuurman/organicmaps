@@ -27,6 +27,8 @@
     <string name="category_fuel">Karburant</string>
     <!-- Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! -->
     <string name="category_parking">Parkim</string>
+    <!-- Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! -->
+    <string name="category_ev_charging">Karikimi i automjeteve elektrike</string>
     <!-- Search category for places to stay; any changes should be duplicated in categories.txt @category_hotel! -->
     <string name="category_hotel">Hotel</string>
     <!-- Search category for toilets; any changes should be duplicated in categories.txt @category_toilet! -->

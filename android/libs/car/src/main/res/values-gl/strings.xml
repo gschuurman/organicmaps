@@ -27,6 +27,8 @@
     <string name="category_fuel">Gasolineira</string>
     <!-- Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! -->
     <string name="category_parking">Aparcamento</string>
+    <!-- Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! -->
+    <string name="category_ev_charging">Recarga de vehículos eléctricos</string>
     <!-- Search category for places to stay; any changes should be duplicated in categories.txt @category_hotel! -->
     <string name="category_hotel">Hotel</string>
     <!-- Search category for toilets; any changes should be duplicated in categories.txt @category_toilet! -->

@@ -27,6 +27,8 @@
     <string name="category_fuel">Degvielas uzpildes stacija</string>
     <!-- Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! -->
     <string name="category_parking">Autostāvvieta</string>
+    <!-- Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! -->
+    <string name="category_ev_charging">Elektroauto uzlāde</string>
     <!-- Search category for places to stay; any changes should be duplicated in categories.txt @category_hotel! -->
     <string name="category_hotel">Viesnīca</string>
     <!-- Search category for toilets; any changes should be duplicated in categories.txt @category_toilet! -->

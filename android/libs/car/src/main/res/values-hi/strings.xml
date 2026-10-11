@@ -27,6 +27,8 @@
     <string name="category_fuel">गैस स्टेशन</string>
     <!-- Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! -->
     <string name="category_parking">पार्किंग</string>
+    <!-- Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! -->
+    <string name="category_ev_charging">ईवी चार्जिंग</string>
     <!-- Search category for places to stay; any changes should be duplicated in categories.txt @category_hotel! -->
     <string name="category_hotel">होटल</string>
     <!-- Search category for toilets; any changes should be duplicated in categories.txt @category_toilet! -->

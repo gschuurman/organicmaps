@@ -112,6 +112,8 @@
     <string name="category_fuel">Benzinkút</string>
     <!-- Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! -->
     <string name="category_parking">Parkoló</string>
+    <!-- Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! -->
+    <string name="category_ev_charging">Elektromosautó-töltés</string>
     <!-- Search category for malls/clothes/shoes/gifts/jewellery/sport shops; any changes should be duplicated in categories.txt @category_shopping! -->
     <string name="category_shopping">Bevásárlás</string>
     <!-- Search category for second_hand/charity/antique/auction shops; any changes should be duplicated in categories.txt @category_secondhand! -->

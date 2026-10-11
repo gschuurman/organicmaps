@@ -103,6 +103,9 @@
 /* Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! */
 "category_parking" = "Aparcaderu";
 
+/* Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! */
+"category_ev_charging" = "Recarga de vehículos llétricos";
+
 /* Search category for malls/clothes/shoes/gifts/jewellery/sport shops; any changes should be duplicated in categories.txt @category_shopping! */
 "category_shopping" = "Shopping";
 

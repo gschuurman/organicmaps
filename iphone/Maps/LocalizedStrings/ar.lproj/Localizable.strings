@@ -103,6 +103,9 @@
 /* Search category for parking lots; any changes should be duplicated in categories.txt @category_parking! */
 "category_parking" = "مرافق ركن السيارات";
 
+/* Search category for electric vehicle charging stations; any changes should be duplicated in categories.txt @category_ev_charging! */
+"category_ev_charging" = "شحن السيارات الكهربائية";
+
 /* Search category for malls/clothes/shoes/gifts/jewellery/sport shops; any changes should be duplicated in categories.txt @category_shopping! */
 "category_shopping" = "تسوق";
 
