@@ -23,6 +23,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import app.organicmaps.MwmActivity;
 import app.organicmaps.R;
+import app.organicmaps.automotive.Automotive;
 import app.organicmaps.routing.RoutingPlanViewModel;
 import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.downloader.MapManager;
@@ -99,10 +100,13 @@ public class MapButtonsController extends Fragment
     mPlacePageViewModel = new ViewModelProvider(activity).get(PlacePageViewModel.class);
     mMapButtonsViewModel = new ViewModelProvider(activity).get(MapButtonsViewModel.class);
     mSearchPageViewModel = new ViewModelProvider(activity).get(SearchPageViewModel.class);
-    if (mMapButtonsViewModel.getLayoutMode().getValue() == LayoutMode.navigation)
-      mFrame = inflater.inflate(R.layout.map_buttons_layout_navigation, container, false);
+    final boolean isNavigation = mMapButtonsViewModel.getLayoutMode().getValue() == LayoutMode.navigation;
+    final int layoutRes;
+    if (Automotive.isAutomotive(activity))
+      layoutRes = isNavigation ? R.layout.map_buttons_layout_car_navigation : R.layout.map_buttons_layout_car_regular;
     else
-      mFrame = inflater.inflate(R.layout.map_buttons_layout_regular, container, false);
+      layoutRes = isNavigation ? R.layout.map_buttons_layout_navigation : R.layout.map_buttons_layout_regular;
+    mFrame = inflater.inflate(layoutRes, container, false);
 
     mInnerLeftButtonsFrame = mFrame.findViewById(R.id.map_buttons_inner_left);
     mInnerRightButtonsFrame = mFrame.findViewById(R.id.map_buttons_inner_right);

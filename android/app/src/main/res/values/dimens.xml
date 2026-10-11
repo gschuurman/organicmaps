@@ -157,6 +157,19 @@
   <dimen name="map_buttons_bottom_margin">136dp</dimen>
   <dimen name="map_buttons_bottom_max_width">300dp</dimen>
 
+  <!-- Android Automotive OS, following the Android for Cars design guidelines -->
+  <dimen name="car_touch_target">76dp</dimen>
+  <dimen name="car_icon_size">36dp</dimen>
+  <dimen name="car_margin">24dp</dimen>
+  <dimen name="car_margin_half">12dp</dimen>
+  <!-- At least 23dp between touch targets -->
+  <dimen name="car_spacing">24dp</dimen>
+  <dimen name="car_corner_radius">24dp</dimen>
+  <dimen name="car_nav_panel_width">440dp</dimen>
+  <dimen name="car_nav_turn_sign">88dp</dimen>
+  <dimen name="car_nav_lanes_height">76dp</dimen>
+  <dimen name="car_nav_numbers_min_width">120dp</dimen>
+
   <dimen name="appbar_elevation">4dp</dimen>
 
   <dimen name="tabs_height">64dp</dimen>
