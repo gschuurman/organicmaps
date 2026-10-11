@@ -18,16 +18,29 @@ import app.organicmaps.R;
 import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.location.LocationHelper;
 import app.organicmaps.sdk.location.LocationListener;
+import app.organicmaps.sdk.util.StringUtils;
 import app.organicmaps.util.UiUtils;
+import app.organicmaps.util.Utils;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.IdentityHashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Android Automotive OS, like Google Maps there: the search pill on the map with the home address and the latest
- * places navigated to below it, each with its distance. Tapping a place builds the route to it.
+ * places navigated to below it, each with the travel time and distance by car. Tapping a place builds the route to
+ * it.
  */
 public final class CarPlacesPanel implements DefaultLifecycleObserver, LocationListener
 {
+  // Re-estimate once the car has moved this far from where the travel times were estimated.
+  private static final float REESTIMATE_DISTANCE_METERS = 500;
+
+  private record Estimate(double seconds, double meters)
+  {
+  }
+
   @NonNull
   private final MwmActivity mActivity;
   @NonNull
@@ -45,6 +58,16 @@ public final class CarPlacesPanel implements DefaultLifecycleObserver, LocationL
   private CarPlaces.Place mHome;
   @NonNull
   private List<CarPlaces.Place> mRecents = Collections.emptyList();
+
+  // Only successful estimates, the straight-line distance is shown for the others.
+  private final Map<CarPlaces.Place, Estimate> mEstimates = new IdentityHashMap<>();
+  @Nullable
+  private Location mEstimatedFrom;
+  // Results of an older round of estimates are dropped.
+  private int mEstimatesRound;
+  // Of the current round. Moving on only starts a new round once it is done, the routes are built one at a time.
+  private int mPendingEstimates;
+  private boolean mDestroyed;
 
   /** Binds the panel if the map buttons layout has it (map_buttons_layout_car_regular.xml). */
   public static void bindIfPresent(@NonNull View frame, @NonNull Fragment fragment)
@@ -72,6 +95,8 @@ public final class CarPlacesPanel implements DefaultLifecycleObserver, LocationL
     CarPlaces.getChanges().observe(owner, changes -> {
       mHome = CarPlaces.getHome(mActivity);
       mRecents = CarPlaces.getRecents(mActivity);
+      mEstimates.clear();
+      estimateTravel(mLocationHelper.getSavedLocation());
       updateList();
     });
     DrivingRestrictions.get().observe(owner, restrictions -> {
@@ -93,10 +118,48 @@ public final class CarPlacesPanel implements DefaultLifecycleObserver, LocationL
     mLocationHelper.removeListener(this);
   }
 
+  @Override
+  public void onDestroy(@NonNull LifecycleOwner owner)
+  {
+    mDestroyed = true;
+  }
+
   // The distances change while driving.
   @Override
   public void onLocationUpdated(@NonNull Location location)
   {
+    if (mPendingEstimates == 0
+        && (mEstimatedFrom == null || mEstimatedFrom.distanceTo(location) > REESTIMATE_DISTANCE_METERS))
+      estimateTravel(location);
+    updateList();
+  }
+
+  // Each estimate builds a route in the background, see RoutingManager::EstimateCarTravel().
+  private void estimateTravel(@Nullable Location location)
+  {
+    if (location == null)
+      return;
+    mEstimatedFrom = location;
+    final int round = ++mEstimatesRound;
+    final List<CarPlaces.Place> places = new ArrayList<>();
+    if (mHome != null)
+      places.add(mHome);
+    places.addAll(mRecents);
+    mPendingEstimates = places.size();
+    for (CarPlaces.Place place : places)
+      Framework.nativeEstimateCarTravel(location.getLatitude(), location.getLongitude(), place.lat, place.lon,
+                                        (seconds, meters) -> onTravelEstimated(round, place, seconds, meters));
+  }
+
+  private void onTravelEstimated(int round, @NonNull CarPlaces.Place place, double seconds, double meters)
+  {
+    if (mDestroyed || round != mEstimatesRound)
+      return;
+    --mPendingEstimates;
+    if (seconds < 0)
+      mEstimates.remove(place);
+    else
+      mEstimates.put(place, new Estimate(seconds, meters));
     updateList();
   }
 
@@ -111,26 +174,49 @@ public final class CarPlacesPanel implements DefaultLifecycleObserver, LocationL
     final Location location = mLocationHelper.getSavedLocation();
     final CarPlaces.Place home = mHome;
     if (home == null)
-      addRow(R.drawable.ic_home, mActivity.getString(R.string.car_home), mActivity.getString(R.string.car_home_search),
-             v -> mSearchButton.performClick());
+      addRow(R.drawable.ic_home, mActivity.getString(R.string.car_home), "",
+             mActivity.getString(R.string.car_home_search), v -> mSearchButton.performClick());
     else
-      addRow(R.drawable.ic_home, mActivity.getString(R.string.car_home), distanceTo(home, location),
-             v -> mActivity.startLocationToPoint(home.toMapObject()));
+      addPlaceRow(R.drawable.ic_home, mActivity.getString(R.string.car_home), home, location);
 
     for (int i = 0; i < mRecents.size() && i + 1 < mMaxItems; i++)
     {
       final CarPlaces.Place place = mRecents.get(i);
-      addRow(R.drawable.ic_search_recent, place.name, distanceTo(place, location),
-             v -> mActivity.startLocationToPoint(place.toMapObject()));
+      addPlaceRow(R.drawable.ic_search_recent, place.name, place, location);
     }
   }
 
-  private void addRow(@DrawableRes int icon, @NonNull String title, @NonNull String subtitle,
-                      @NonNull View.OnClickListener onClick)
+  // Like Google Maps: "10 min · 2.8 km", the travel time in the accent colour.
+  private void addPlaceRow(@DrawableRes int icon, @NonNull String title, @NonNull CarPlaces.Place place,
+                           @Nullable Location location)
+  {
+    final Estimate estimate = mEstimates.get(place);
+    final CharSequence time;
+    final String distance;
+    if (estimate != null)
+    {
+      time = Utils.formatRoutingTime(mActivity, (int) estimate.seconds(), R.dimen.text_size_car_body,
+                                     R.dimen.text_size_car_body);
+      distance = " · " + StringUtils.nativeFormatDistance(estimate.meters()).toString(mActivity);
+    }
+    else
+    {
+      // Until the route is estimated, or when there is none.
+      time = "";
+      distance = straightDistanceTo(place, location);
+    }
+    addRow(icon, title, time, distance, v -> mActivity.startLocationToPoint(place.toMapObject()));
+  }
+
+  private void addRow(@DrawableRes int icon, @NonNull String title, @NonNull CharSequence time,
+                      @NonNull String subtitle, @NonNull View.OnClickListener onClick)
   {
     final View row = LayoutInflater.from(mActivity).inflate(R.layout.item_car_place, mList, false);
     row.<ImageView>findViewById(R.id.icon).setImageResource(icon);
     row.<TextView>findViewById(R.id.title).setText(title);
+    final TextView timeView = row.findViewById(R.id.time);
+    timeView.setText(time);
+    UiUtils.showIf(time.length() > 0, timeView);
     final TextView subtitleView = row.findViewById(R.id.subtitle);
     subtitleView.setText(subtitle);
     UiUtils.showIf(!subtitle.isEmpty(), subtitleView);
@@ -138,9 +224,8 @@ public final class CarPlacesPanel implements DefaultLifecycleObserver, LocationL
     mList.addView(row);
   }
 
-  // Straight-line distance: a travel time would need a route built for every place.
   @NonNull
-  private String distanceTo(@NonNull CarPlaces.Place place, @Nullable Location location)
+  private String straightDistanceTo(@NonNull CarPlaces.Place place, @Nullable Location location)
   {
     if (location == null)
       return "";
