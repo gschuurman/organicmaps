@@ -423,16 +423,29 @@
         android:name="app.organicmaps.DownloadResourcesLegacyActivity"
         android:theme="@style/MwmTheme.DownloadResourcesLegacy"
         android:configChanges="orientation|screenLayout|screenSize"
-        android:screenOrientation="fullUser"/>
+        android:screenOrientation="fullUser">
+        <!-- Android Automotive OS: usable while driving -->
+        <meta-data
+            android:name="distractionOptimized"
+            android:value="true" />
+    </activity>
 
     <activity-alias
       android:name="app.organicmaps.DownloadResourcesActivity"
       android:label="@string/app_name"
       android:targetActivity="app.organicmaps.SplashActivity"
       android:exported="true">
+      <!-- Android Automotive OS: usable while driving -->
+      <meta-data
+          android:name="distractionOptimized"
+          android:value="true" />
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
         <category android:name="android.intent.category.LAUNCHER"/>
+        <!-- Android Automotive OS: the car launcher embeds the whole app as the map card on its home screen,
+             like Google Maps there -->
+        <category android:name="android.intent.category.APP_MAPS"/>
+        <category android:name="android.intent.category.DEFAULT"/>
       </intent-filter>
     </activity-alias>
 
@@ -443,29 +456,10 @@
         android:configChanges="uiMode"
         android:screenOrientation="fullUser"
         android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
-      <!-- Android Automotive OS: usable while driving -->
-      <meta-data
-          android:name="distractionOptimized"
-          android:value="true" />
-    </activity>
-
-    <!-- Android Automotive OS: the map shown on the car launcher's home screen -->
-    <activity
-        android:name="app.organicmaps.automotive.MapCardActivity"
-        android:theme="@style/MwmTheme.MainActivity"
-        android:taskAffinity="${applicationId}.mapcard"
-        android:excludeFromRecents="true"
-        android:resizeableActivity="true"
-        android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|density|uiMode"
-        android:exported="true">
-      <intent-filter>
-        <action android:name="android.intent.action.MAIN"/>
-        <category android:name="android.intent.category.DEFAULT"/>
-        <category android:name="android.intent.category.APP_MAPS"/>
-      </intent-filter>
-      <meta-data
-          android:name="distractionOptimized"
-          android:value="true" />
+        <!-- Android Automotive OS: usable while driving -->
+        <meta-data
+            android:name="distractionOptimized"
+            android:value="true" />
     </activity>
 
     <activity-alias

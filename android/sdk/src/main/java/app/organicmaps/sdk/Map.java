@@ -206,11 +206,6 @@ public final class Map
       mMapRenderingListener.onRenderingRestored();
   }
 
-  boolean isSurfaceAttached()
-  {
-    return mSurfaceAttached;
-  }
-
   public void onSurfaceDestroyed(boolean activityIsChangingConfigurations)
   {
     Logger.d(TAG, "mSurfaceCreated = " + mSurfaceCreated + ", mSurfaceAttached = " + mSurfaceAttached);

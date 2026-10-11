@@ -19,7 +19,6 @@ import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.ViewCompat;
-import app.organicmaps.automotive.Automotive;
 import app.organicmaps.downloader.DownloaderActivity;
 import app.organicmaps.intent.Factory;
 import app.organicmaps.sdk.display.DisplayManager;
@@ -78,8 +77,7 @@ public class SplashActivity extends AppCompatActivity
     final DisplayManager displayManager = MwmApplication.from(this).getDisplayManager();
     displayManager.init(DisplayType.Device);
 
-    // On Android Automotive OS the "car" display is the launcher's map card: MwmActivity takes the map back.
-    if (displayManager.isCarDisplayUsed() && !Automotive.isAutomotive(this))
+    if (displayManager.isCarDisplayUsed())
     {
       startActivity(new Intent(this, MapPlaceholderActivity.class));
       finish();
