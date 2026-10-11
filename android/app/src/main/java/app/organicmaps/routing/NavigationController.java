@@ -19,6 +19,7 @@ import app.organicmaps.MwmApplication;
 import app.organicmaps.R;
 import app.organicmaps.automotive.Automotive;
 import app.organicmaps.maplayer.MapButtonsViewModel;
+import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.Router;
 import app.organicmaps.sdk.maplayer.traffic.TrafficManager;
 import app.organicmaps.sdk.routing.RoutingController;
@@ -55,7 +56,11 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
   private final MapButtonsViewModel mMapButtonsViewModel;
   private final View mTopFrame;
   private final View mNextTurnContainer;
-  private final boolean mStreetInTurnCard;
+  private final boolean mIsCarTurnCard;
+  // Android Automotive OS only, see layout_nav_top_car.xml.
+  @Nullable
+  private final View mRerouting;
+  private final View mNextTurnFrame;
 
   private final NavMenu mNavMenu;
   View.OnClickListener mOnSettingsClickListener;
@@ -76,18 +81,19 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
     mTopFrame = mFrame.findViewById(R.id.nav_top_frame);
     mTopFrame.addOnLayoutChangeListener(
         (v, l, t, r, b, ol, ot, or, ob) -> mMapButtonsViewModel.setTopHeaderHeight(computeNavContentHeight()));
-    View turnFrame = mTopFrame.findViewById(R.id.nav_next_turn_frame);
-    mNextTurnImage = turnFrame.findViewById(R.id.turn);
-    mNextTurnDistance = turnFrame.findViewById(R.id.distance);
+    mNextTurnFrame = mTopFrame.findViewById(R.id.nav_next_turn_frame);
+    mNextTurnImage = mNextTurnFrame.findViewById(R.id.turn);
+    mNextTurnDistance = mNextTurnFrame.findViewById(R.id.distance);
+    mRerouting = mTopFrame.findViewById(R.id.nav_rerouting);
 
     mNextNextTurnFrame = mTopFrame.findViewById(R.id.nav_next_next_turn_frame);
     mNextNextTurnImage = mNextNextTurnFrame.findViewById(R.id.turn);
 
     mStreetFrame = mTopFrame.findViewById(R.id.street_frame);
     mNextStreet = mStreetFrame.findViewById(R.id.street);
-    // On Android Automotive OS the street is shown inside the turn card (layout_nav_top_car.xml)
+    // On Android Automotive OS the street is shown inside a turn card (layout_nav_top_car.xml)
     // instead of a bar along the top edge.
-    mStreetInTurnCard = Automotive.isAutomotive(activity);
+    mIsCarTurnCard = Automotive.isAutomotive(activity);
 
     mLanesView = mTopFrame.findViewById(R.id.lanes);
 
@@ -98,7 +104,7 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
     final View navBottomSheet = mFrame.findViewById(R.id.nav_bottom_sheet);
     mNextTurnContainer = mFrame.findViewById(R.id.nav_next_turn_container);
 
-    if (!mStreetInTurnCard)
+    if (!mIsCarTurnCard)
       ViewCompat.setOnApplyWindowInsetsListener(mStreetFrame, BaselinePaddingInsetsListener.excludeBottom());
 
     ViewCompat.setOnApplyWindowInsetsListener(mTopFrame, (v, windowInsets) -> {
@@ -108,7 +114,7 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
       final boolean isRtl = v.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
       final int startInset = isRtl ? safeDrawing.right : safeDrawing.left;
       // Without the street bar above it, the turn card must clear the top system bar itself.
-      final int topPadding = mStreetInTurnCard ? safeDrawing.top : mNextTurnContainer.getPaddingTop();
+      final int topPadding = mIsCarTurnCard ? safeDrawing.top : mNextTurnContainer.getPaddingTop();
       mNextTurnContainer.setPaddingRelative(startInset, topPadding, mNextTurnContainer.getPaddingEnd(),
                                             mNextTurnContainer.getPaddingBottom());
       return windowInsets;
@@ -140,7 +146,7 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
   // street frame in portrait.
   private int computeNavContentHeight()
   {
-    if (mStreetInTurnCard)
+    if (mIsCarTurnCard)
       return mNextTurnContainer.getBottom();
     int turnAndSpeedHeight = 0;
     if (mFrame.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
@@ -177,16 +183,58 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
 
   public void update(@Nullable RoutingInfo info)
   {
+    // While navigating, the route is only built again when rerouting.
+    final boolean rerouting = mRerouting != null && Framework.nativeIsRouteBuilding();
+    if (mRerouting != null)
+      showRerouting(rerouting);
+
     if (info == null)
       return;
 
-    if (Router.get() == Router.Pedestrian)
-      updatePedestrian(info);
-    else
-      updateVehicle(info);
+    if (!rerouting)
+    {
+      if (Router.get() == Router.Pedestrian)
+        updatePedestrian(info);
+      else
+        updateVehicle(info);
 
-    updateStreetView(info);
+      updateStreetView(info);
+      if (mIsCarTurnCard)
+        fitTurnCard();
+    }
     mNavMenu.update(info);
+  }
+
+  // Like Google Maps: the rerouting status replaces the next turn on the turn card.
+  private void showRerouting(boolean rerouting)
+  {
+    UiUtils.showIf(rerouting, mRerouting);
+    UiUtils.showIf(!rerouting, mNextTurnFrame);
+    if (rerouting)
+      UiUtils.hide(mLanesView, mNextNextTurnFrame);
+  }
+
+  // Like Google Maps: when the turn card does not fit above the trip panel, it drops the turn after the next
+  // one first, then the lanes.
+  private void fitTurnCard()
+  {
+    final int width = mNextTurnContainer.getWidth();
+    if (width == 0)
+      return; // Not laid out yet, the next update fits it.
+    final int available = mFrame.getHeight() - mNavMenu.getPeekHeight();
+    for (View optional : new View[] {mNextNextTurnFrame, mLanesView})
+    {
+      if (measureHeight(mNextTurnContainer, width) <= available)
+        return;
+      UiUtils.hide(optional);
+    }
+  }
+
+  private static int measureHeight(@NonNull View view, int width)
+  {
+    view.measure(View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY),
+                 View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+    return view.getMeasuredHeight();
   }
 
   private void updateStreetView(@NonNull RoutingInfo info)
@@ -194,7 +242,7 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
     boolean hasStreet = !TextUtils.isEmpty(info.nextStreet);
     // Sic: don't use UiUtils.showIf() for the street bar because View.GONE breaks layout
     // https://github.com/organicmaps/organicmaps/issues/3732
-    if (mStreetInTurnCard)
+    if (mIsCarTurnCard)
       UiUtils.showIf(hasStreet, mStreetFrame);
     else
       UiUtils.visibleIf(hasStreet, mStreetFrame);
@@ -202,7 +250,7 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
       mNextStreet.setText(RoadShieldUtils.createStreetTextWithShields(info.nextStreet, info.nextStreetRoadShields,
                                                                       mNextStreet.getTextSize()));
     // The map buttons only need to clear the street bar, not the turn card on the other side.
-    if (mStreetInTurnCard)
+    if (mIsCarTurnCard)
       return;
     int margin = dimen(mFrame.getContext(), R.dimen.nav_frame_padding);
     if (hasStreet)

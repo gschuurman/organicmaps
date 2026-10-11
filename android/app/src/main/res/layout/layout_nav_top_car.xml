@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Android Automotive OS, like Google Maps there: one turn card at the top start with the next turn, the distance
-     to it, the street and the lanes, then the turn after it and the speed limit below. -->
+     to it, the street and the lanes, then the turn after it and the speed limit below. NavigationController drops
+     the turn after the next one, then the lanes, when the card does not fit above the trip panel. -->
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,6 +30,30 @@
       android:background="@drawable/bg_car_turn_card"
       android:elevation="@dimen/nav_elevation"
       android:orientation="vertical">
+
+      <!-- Replaces the next turn while the route is rebuilt -->
+      <LinearLayout
+        android:id="@+id/nav_rerouting"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/car_nav_turn_sign"
+        android:orientation="horizontal"
+        android:padding="@dimen/car_margin"
+        android:visibility="gone">
+
+        <ProgressBar
+          android:layout_width="@dimen/car_icon_size"
+          android:layout_height="@dimen/car_icon_size"
+          android:indeterminateTint="?android:textColorPrimaryInverse" />
+
+        <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/car_margin"
+          android:text="@string/navigation_rerouting"
+          android:textAppearance="@style/MwmTextAppearance.Car.NavStreet" />
+      </LinearLayout>
 
       <LinearLayout
         android:id="@+id/nav_next_turn_frame"
