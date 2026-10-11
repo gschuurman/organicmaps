@@ -1247,6 +1247,21 @@ JNIEXPORT jboolean Java_app_organicmaps_sdk_Framework_nativeIsRouteBuilding(JNIE
   return frm()->GetRoutingManager().IsRouteBuilding();
 }
 
+JNIEXPORT void Java_app_organicmaps_sdk_Framework_nativeEstimateCarTravel(JNIEnv * env, jclass, jdouble fromLat,
+                                                                          jdouble fromLon, jdouble toLat, jdouble toLon,
+                                                                          jobject listener)
+{
+  frm()->GetRoutingManager().EstimateCarTravel(
+      mercator::FromLatLon(fromLat, fromLon), mercator::FromLatLon(toLat, toLon),
+      [jListener = jni::make_global_ref(listener)](std::optional<RoutingManager::TravelEstimate> const & estimate)
+  {
+    JNIEnv * env = jni::GetEnv();
+    env->CallVoidMethod(*jListener, jni::GetMethodID(env, *jListener, "onTravelEstimated", "(DD)V"),
+                        estimate ? estimate->m_seconds : -1.0, estimate ? estimate->m_meters : -1.0);
+    jni::HandleJavaException(env);
+  });
+}
+
 JNIEXPORT jboolean Java_app_organicmaps_sdk_Framework_nativeIsRouteBuilt(JNIEnv * env, jclass)
 {
   return frm()->GetRoutingManager().IsRouteBuilt();

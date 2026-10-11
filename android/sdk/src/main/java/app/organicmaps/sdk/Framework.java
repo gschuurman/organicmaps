@@ -222,6 +222,20 @@ public class Framework
 
   public static native boolean nativeIsRouteBuilding();
 
+  public interface TravelEstimateListener
+  {
+    /** Called on the UI thread, with negative values when no route is found. */
+    @Keep
+    void onTravelEstimated(double seconds, double meters);
+  }
+
+  /**
+   * Estimates the travel time and distance by car in the background, without touching the route being planned or
+   * followed. Call it on the UI thread.
+   */
+  public static native void nativeEstimateCarTravel(double fromLat, double fromLon, double toLat, double toLon,
+                                                    @NonNull TravelEstimateListener listener);
+
   public static native void nativeCloseRouting();
 
   public static native void nativeBuildRoute();

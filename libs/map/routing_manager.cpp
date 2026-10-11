@@ -549,18 +549,61 @@ void RoutingManager::SetRouterImpl(RouterType type)
       return mwmId.IsAlive();
     };
 
-    auto const getMwmRectByName = [this](std::string const & countryId)
-    { return m_callbacks.m_countryInfoGetter().GetLimitRectForLeaf(countryId); };
-
-    router = std::make_unique<IndexRouter>(vehicleType, m_loadAltitudes, m_callbacks.m_countryParentNameGetterFn,
-                                           countryFileGetter, getMwmRectByName, m_numMwmIDs, m_numMwmTree,
-                                           m_routingSession, dataSource);
+    router = CreateIndexRouter(vehicleType, m_loadAltitudes, m_numMwmIDs, m_numMwmTree, m_routingSession);
     absentFinder = std::make_unique<AbsentRegionsFinder>(countryFileGetter, localFileChecker, m_numMwmIDs, dataSource);
   }
 
   m_routingSession.SetRoutingSettings(GetRoutingSettings(vehicleType));
   m_routingSession.SetRouter(std::move(router), std::move(absentFinder));
   m_currentRouterType = type;
+}
+
+std::unique_ptr<IndexRouter> RoutingManager::CreateIndexRouter(VehicleType vehicleType, bool loadAltitudes,
+                                                               std::shared_ptr<NumMwmIds> numMwmIds,
+                                                               std::shared_ptr<m4::Tree<NumMwmId>> numMwmTree,
+                                                               traffic::TrafficCache const & trafficCache)
+{
+  auto const countryFileGetter = [this](m2::PointD const & p)
+  { return m_callbacks.m_countryInfoGetter().GetRegionCountryId(p); };
+
+  auto const getMwmRectByName = [this](std::string const & countryId)
+  { return m_callbacks.m_countryInfoGetter().GetLimitRectForLeaf(countryId); };
+
+  return std::make_unique<IndexRouter>(vehicleType, loadAltitudes, m_callbacks.m_countryParentNameGetterFn,
+                                       countryFileGetter, getMwmRectByName, std::move(numMwmIds), std::move(numMwmTree),
+                                       trafficCache, m_callbacks.m_dataSourceGetter());
+}
+
+void RoutingManager::EstimateCarTravel(m2::PointD const & from, m2::PointD const & to,
+                                       TravelEstimateCallback && callback)
+{
+  CHECK_THREAD_CHECKER(m_threadChecker, ());
+  // Set by Init() once the maps are loaded.
+  if (!m_numMwmIDs)
+  {
+    callback({});
+    return;
+  }
+
+  // A route to a far place can take long to build, the estimate is not worth it then.
+  uint32_t constexpr kTimeoutSec = 10;
+  m_travelEstimateThread.Push([this, from, to, numMwmIds = m_numMwmIDs, numMwmTree = m_numMwmTree, callback]
+  {
+    auto const router =
+        CreateIndexRouter(VehicleType::Car, false /* loadAltitudes */, numMwmIds, numMwmTree, m_noTraffic);
+    RouterDelegate delegate;
+    delegate.SetTimeout(kTimeoutSec);
+    RoutesResult result("estimate", 0 /* routesId */);
+    std::optional<TravelEstimate> estimate;
+    if (router->CalculateRoute(Checkpoints(from, to), m2::PointD::Zero() /* startDirection */, false /* adjust */,
+                               false /* needAlternatives */, delegate, result) == RouterResultCode::NoError &&
+        result.IsValid())
+    {
+      Route const route(result.GetActive());
+      estimate = TravelEstimate{route.GetTotalTimeSec(), route.GetTotalDistanceMeters()};
+    }
+    GetPlatform().RunTask(Platform::Thread::Gui, [callback, estimate] { callback(estimate); });
+  });
 }
 
 void RoutingManager::RemoveRoute(bool deactivateFollowing)

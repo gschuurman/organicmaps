@@ -15,11 +15,14 @@
 
 #include "storage/storage_defines.hpp"
 
+#include "traffic/traffic_cache.hpp"
+
 #include "drape_frontend/drape_engine_safe_ptr.hpp"
 
 #include "drape/pointers.hpp"
 
 #include "base/thread_checker.hpp"
+#include "base/thread_pool_delayed.hpp"
 
 #include <chrono>
 #include <functional>
@@ -37,8 +40,9 @@ class CountryInfoGetter;
 
 namespace routing
 {
+class IndexRouter;
 class NumMwmIds;
-}
+}  // namespace routing
 
 class DataSource;
 
@@ -128,6 +132,17 @@ public:
   bool IsOnRoute() const { return m_routingSession.IsOnRoute(); }
   bool IsRoutingFollowing() const { return m_routingSession.IsFollowing(); }
   bool IsRouteValid() const { return m_routingSession.IsRouteValid(); }
+
+  struct TravelEstimate
+  {
+    double m_seconds = 0.0;
+    double m_meters = 0.0;
+  };
+  using TravelEstimateCallback = std::function<void(std::optional<TravelEstimate> const &)>;
+  /// Estimates the travel time and distance by car from |from| to |to| in the background, with its own router so
+  /// the route being planned or followed is not touched, e.g. for the times to recent places. Call it on the GUI
+  /// thread; |callback| is called there too, with std::nullopt when no route is found.
+  void EstimateCarTravel(m2::PointD const & from, m2::PointD const & to, TravelEstimateCallback && callback);
   void BuildRoute(uint32_t timeoutSec = routing::RouterDelegate::kNoTimeout);
   void SetUserCurrentPosition(m2::PointD const & position);
   void ResetRoutingSession() { m_routingSession.Reset(); }
@@ -296,6 +311,10 @@ public:
 
 private:
   void SetRouterImpl(routing::RouterType type);
+  std::unique_ptr<routing::IndexRouter> CreateIndexRouter(routing::VehicleType vehicleType, bool loadAltitudes,
+                                                          std::shared_ptr<routing::NumMwmIds> numMwmIds,
+                                                          std::shared_ptr<m4::Tree<routing::NumMwmId>> numMwmTree,
+                                                          traffic::TrafficCache const & trafficCache);
 
   struct RoadInfo
   {
@@ -397,7 +416,13 @@ private:
   std::shared_ptr<routing::NumMwmIds> m_numMwmIDs;
   std::shared_ptr<m4::Tree<routing::NumMwmId>> m_numMwmTree;
 
+  // For the routers of EstimateCarTravel(), which run apart from the routing session.
+  traffic::TrafficCache const m_noTraffic;
+
   TransitReadManager * m_transitReadManager = nullptr;
 
   DECLARE_THREAD_CHECKER(m_threadChecker);
+
+  // Builds the routes of EstimateCarTravel() one after the other. Last, to be destroyed before what its tasks use.
+  base::DelayedThreadPool m_travelEstimateThread;
 };
