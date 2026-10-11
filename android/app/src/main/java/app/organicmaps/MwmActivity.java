@@ -547,8 +547,14 @@ public class MwmActivity extends BaseMwmFragmentActivity
     // Bridge search-active state into RoutingPlanViewModel so the routing sheet hides under the search
     // bottom sheet. RoutingPlanFragment stays decoupled from SearchPageViewModel; the activity is the
     // single place that knows about both subsystems.
-    mSearchPageViewModel.getSearchEnabled().observe(
-        this, enabled -> mRoutingPlanViewModel.setIsSearchActive(Boolean.TRUE.equals(enabled)));
+    mSearchPageViewModel.getSearchEnabled().observe(this, enabled -> {
+      mRoutingPlanViewModel.setIsSearchActive(Boolean.TRUE.equals(enabled));
+      // A disabled search page cannot own a pending pick. The map chooser takes ownership before closing
+      // search and cancels the pick when it closes; this also handles search dismissal and activity recreation.
+      if (!Boolean.TRUE.equals(enabled)
+          && !Boolean.TRUE.equals(mRoutingPlanViewModel.getIsPointChooserActive().getValue()))
+        RoutingController.get().cancelPoiPick();
+    });
 
     // Note: You must call registerForActivityResult() before the fragment or activity is created.
     mLocationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(),
@@ -798,7 +804,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
       finish();
     // No-op once Done committed the point; cancels the pick on every other way out.
     else if (mode == ChoosePositionMode.Routing)
-      RoutingController.get().onPoiSelected(null);
+      RoutingController.get().cancelPoiPick();
   }
 
   private void initNavigationButtons()
@@ -1085,6 +1091,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
     BookmarkManager.INSTANCE.addLoadingListener(this);
     MwmApplication.from(getApplicationContext()).getIsolinesManager().attach(this::onIsolinesStateChanged);
     updateDrivingOptionCount();
+    RoutingController.get().applyPendingRoutingOptions();
     LocationState.nativeSetListener(this);
     MwmApplication.from(this).getLocationHelper().addListener(this);
     Utils.keepScreenOn(Config.isKeepScreenOnEnabled() || RoutingController.get().isNavigating(), getWindow());

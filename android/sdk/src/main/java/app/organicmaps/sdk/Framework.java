@@ -268,20 +268,28 @@ public class Framework
 
   public static native void nativeShowCountry(String countryId, boolean zoomToDownloadButton);
 
-  public static boolean addRoutePoint(RouteMarkData point)
+  public static boolean addRoutePoint(RouteMarkData point, boolean allowOptimization)
   {
-    return addRoutePoint(point, true);
-  }
-
-  public static boolean addRoutePoint(RouteMarkData point, boolean reorderIntermediatePoints)
-  {
-    return Framework.nativeAddRoutePoint(point.mTitle, point.mSubtitle, point.mPointType, point.mIntermediateIndex,
-                                         point.mIsMyPosition, point.mLat, point.mLon, reorderIntermediatePoints);
+    return Framework.nativeAddRoutePoint(point.mTitle, point.mSubtitle, point.mPointType, point.mIsMyPosition,
+                                         point.mLat, point.mLon, allowOptimization);
   }
 
   public static native boolean nativeAddRoutePoint(String title, String subtitle, @NonNull RouteMarkType markType,
-                                                   int intermediateIndex, boolean isMyPosition, double lat, double lon,
-                                                   boolean reorderIntermediatePoints);
+                                                   boolean isMyPosition, double lat, double lon,
+                                                   boolean allowOptimization);
+
+  public static native void nativeReplaceRoutePoint(String title, String subtitle, @NonNull RouteMarkType markType,
+                                                    int intermediateIndex, boolean isMyPosition, double lat,
+                                                    double lon);
+
+  /**
+   * Appends the point to the end of the route: the current finish becomes the last intermediate point and
+   * the given point becomes the new finish.
+   *
+   * @return {@code false} if the route has no finish point or the route points limit is reached.
+   */
+  public static native boolean nativeContinueRouteToPoint(String title, String subtitle, boolean isMyPosition,
+                                                          double lat, double lon);
 
   public static native void nativeRemoveRoutePoints();
 
@@ -289,12 +297,24 @@ public class Framework
 
   public static native void nativeRemoveIntermediateRoutePoints();
 
+  public static native boolean nativeOptimizeRoutePoints();
+
   public static native boolean nativeCouldAddIntermediatePoint();
+
+  /** Checks the mark limit even when a route build has failed and routing is inactive. */
+  public static native boolean nativeIsRoutePointsLimitReached();
 
   @NonNull
   public static native RouteMarkData[] nativeGetRoutePoints();
 
   public static native void nativeMoveRoutePoint(int currentIndex, int targetIndex);
+
+  /**
+   * Reverses the complete route, including intermediate points.
+   *
+   * @return {@code false} without changing points if either endpoint is missing.
+   */
+  public static native boolean nativeReverseRoutePoints();
 
   @NonNull
   public static native TransitRouteInfo nativeGetTransitRouteInfo();
