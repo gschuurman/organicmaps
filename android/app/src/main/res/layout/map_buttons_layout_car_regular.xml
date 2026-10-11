@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android Automotive OS, like Google Maps there: at the top start, where the search and place page panels open,
-     the search pill with the home address and the latest places below it (CarPlacesPanel); the settings menu at
-     the bottom start; the map controls along the end edge. -->
+<!-- Android Automotive OS, like Google Maps there: the map controls in a column along the start edge (as while
+     navigating, see map_buttons_layout_car_navigation.xml), and right of it at the top, where the search and place
+     page panels open, the search pill with the home address and the latest places below it (CarPlacesPanel). Both
+     are in one frame, to move away together when the search opens over them. -->
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -14,12 +15,70 @@
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/map_buttons_inner_left"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:clipChildren="false"
     android:clipToPadding="false"
-    android:padding="@dimen/car_margin"
+    android:padding="@dimen/car_controls_column_padding"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/menu_button"
+      style="@style/MwmWidget.MapButton.Car"
+      android:contentDescription="@string/menu"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:srcCompat="@drawable/ic_menu_settings" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/btn_bookmarks"
+      style="@style/MwmWidget.MapButton.Car"
+      android:layout_marginTop="@dimen/car_spacing"
+      android:contentDescription="@string/bookmarks"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/menu_button"
+      app:srcCompat="@drawable/ic_bookmarks_and_tracks" />
+    <app.organicmaps.maplayer.LayersButton
+      android:id="@+id/layers_button"
+      style="@style/MwmWidget.MapButton.Car"
+      android:layout_marginTop="@dimen/car_spacing"
+      android:contentDescription="@string/layers_title"
+      android:tint="?accentColorSelector"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/btn_bookmarks"
+      app:srcCompat="@drawable/ic_layers" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/track_recording_status"
+      style="@style/MwmWidget.MapButton.Car"
+      android:layout_marginTop="@dimen/car_spacing"
+      android:tint="@color/accent_color_selector"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/layers_button"
+      app:srcCompat="@drawable/ic_track_recording_status" />
+    <LinearLayout
+      android:id="@+id/zoom_buttons_container"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="@dimen/car_spacing"
+      android:orientation="vertical"
+      app:layout_constraintBottom_toTopOf="@+id/my_position"
+      app:layout_constraintStart_toStartOf="parent">
+      <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nav_zoom_in"
+        style="@style/MwmWidget.MapButton.Car"
+        android:layout_marginBottom="@dimen/car_spacing"
+        android:contentDescription="@string/zoom_in"
+        app:srcCompat="@drawable/ic_plus" />
+      <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/nav_zoom_out"
+        style="@style/MwmWidget.MapButton.Car"
+        android:contentDescription="@string/zoom_out"
+        app:srcCompat="@drawable/ic_minus" />
+    </LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/my_position"
+      style="@style/MwmWidget.MapButton.Car"
+      android:contentDescription="@string/core_my_position"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent" />
     <LinearLayout
       android:id="@+id/car_places_panel"
       android:layout_width="@dimen/car_nav_panel_width"
@@ -28,7 +87,8 @@
       android:elevation="@dimen/nav_elevation"
       android:orientation="vertical"
       android:paddingBottom="@dimen/car_margin_half"
-      app:layout_constraintStart_toStartOf="parent"
+      android:layout_marginStart="@dimen/car_controls_column_padding"
+      app:layout_constraintStart_toEndOf="@id/menu_button"
       app:layout_constraintTop_toTopOf="parent">
       <LinearLayout
         android:id="@+id/car_search_pill"
@@ -76,73 +136,5 @@
         android:layout_height="wrap_content"
         android:orientation="vertical" />
     </LinearLayout>
-  </androidx.constraintlayout.widget.ConstraintLayout>
-  <com.google.android.material.floatingactionbutton.FloatingActionButton
-    android:id="@+id/menu_button"
-    style="@style/MwmWidget.MapButton.Car"
-    android:layout_margin="@dimen/car_margin"
-    android:contentDescription="@string/menu"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintStart_toStartOf="parent"
-    app:srcCompat="@drawable/ic_menu_settings" />
-  <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/map_buttons_inner_right"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:clipChildren="false"
-    android:clipToPadding="false"
-    android:padding="@dimen/car_margin"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintTop_toTopOf="parent">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/btn_bookmarks"
-      style="@style/MwmWidget.MapButton.Car"
-      android:contentDescription="@string/bookmarks"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:srcCompat="@drawable/ic_bookmarks_and_tracks" />
-    <app.organicmaps.maplayer.LayersButton
-      android:id="@+id/layers_button"
-      style="@style/MwmWidget.MapButton.Car"
-      android:layout_marginTop="@dimen/car_spacing"
-      android:contentDescription="@string/layers_title"
-      android:tint="?accentColorSelector"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/btn_bookmarks"
-      app:srcCompat="@drawable/ic_layers" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/track_recording_status"
-      style="@style/MwmWidget.MapButton.Car"
-      android:layout_marginTop="@dimen/car_spacing"
-      android:tint="@color/accent_color_selector"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/layers_button"
-      app:srcCompat="@drawable/ic_track_recording_status" />
-    <LinearLayout
-      android:id="@+id/zoom_buttons_container"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginBottom="@dimen/car_spacing"
-      android:orientation="vertical"
-      app:layout_constraintBottom_toTopOf="@+id/my_position"
-      app:layout_constraintEnd_toEndOf="parent">
-      <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/nav_zoom_in"
-        style="@style/MwmWidget.MapButton.Car"
-        android:layout_marginBottom="@dimen/car_spacing"
-        android:contentDescription="@string/zoom_in"
-        app:srcCompat="@drawable/ic_plus" />
-      <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/nav_zoom_out"
-        style="@style/MwmWidget.MapButton.Car"
-        android:contentDescription="@string/zoom_out"
-        app:srcCompat="@drawable/ic_minus" />
-    </LinearLayout>
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/my_position"
-      style="@style/MwmWidget.MapButton.Car"
-      android:contentDescription="@string/core_my_position"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintEnd_toEndOf="parent" />
   </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
