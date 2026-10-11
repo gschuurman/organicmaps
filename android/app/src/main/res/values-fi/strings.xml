@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Varmista, ettet syöttänyt henkilökohtaisia tietojasi.</string>
     <string name="editor_share_to_all_dialog_message_2">OpenStreetMap-editorit tarkistavat muutokset ja ottavat sinuun yhteyttä, jos heillä on kysyttävää.</string>
     <string name="navigation_stop_button">Lopeta</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Lasketaan reittiä uudelleen…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Pysähdy nähdäksesi lisää tuloksia</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Reitin kirjaaminen</string>
     <!-- For the first routing -->
@@ -685,6 +689,7 @@
     <string name="closes_at">Sulkeutuu kello %s</string>
     <string name="editor_add_select_category_all_subtitle">Kaikki kategoriat</string>
     <string name="placepage_replace_stop">Vaihda Stop</string>
+    <string name="keyboard_availability_alert">Näppäimistö ei ole käytettävissä ajon aikana</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Ruoka</string>

@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Переконайтеся, що ви не ввели особисті дані.</string>
     <string name="editor_share_to_all_dialog_message_2">Редактори OpenStreetMap перевірять зміни та зв’яжуться з вами, якщо у них виникнуть запитання.</string>
     <string name="navigation_stop_button">Стоп</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Перебудова маршруту…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Зупиніться, щоб побачити більше результатів</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Запис треку</string>
     <!-- For the first routing -->
@@ -692,6 +696,7 @@
     <string name="closes_at">Закривається о %s</string>
     <string name="editor_add_select_category_all_subtitle">Усі категорії</string>
     <string name="placepage_replace_stop">Замінити зупинку</string>
+    <string name="keyboard_availability_alert">Клавіатура недоступна під час руху</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Їжа</string>

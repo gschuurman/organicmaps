@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Kun ċert li ma daħħalt l-ebda informazzjoni privata jew personali.</string>
     <string name="editor_share_to_all_dialog_message_2">L-edituri ta’ OpenStreetMap ser jiċċekkjaw il-bidliet u jikkuntattjawk jekk ikollhom xi mistoqsijiet.</string>
     <string name="navigation_stop_button">Waqqaf</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Qed tiġi kkalkulata rotta ġdida…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Ieqaf biex tara aktar riżultati</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Reġistrazzjoni tal-korsija</string>
     <!-- For the first routing -->
@@ -688,6 +692,7 @@
     <string name="closes_at">Jagħlaq f ’ %s</string>
     <string name="editor_add_select_category_all_subtitle">Kategoriji kollha</string>
     <string name="placepage_replace_stop">Biddel Waqaf</string>
+    <string name="keyboard_availability_alert">Il-tastiera mhix disponibbli waqt is-sewqan</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Ikel</string>

@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">יש לוודא שלא הזנת מידע אישי או פרטי.</string>
     <string name="editor_share_to_all_dialog_message_2">עורכי OpenStreetMap יבדקו את השינויים ויצרו איתך קשר אם יש להם שאלות כלשהן.</string>
     <string name="navigation_stop_button">עצור</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">מחשב מסלול מחדש…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">עצרו בצד כדי לראות תוצאות נוספות</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">הקלטת המסלול</string>
     <!-- For the first routing -->
@@ -685,6 +689,7 @@
     <string name="closes_at">נסגר ב-%s</string>
     <string name="editor_add_select_category_all_subtitle">כל הקטגוריות</string>
     <string name="placepage_replace_stop">החלף תחנה</string>
+    <string name="keyboard_availability_alert">המקלדת לא זמינה בזמן נהיגה</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">אוכל</string>

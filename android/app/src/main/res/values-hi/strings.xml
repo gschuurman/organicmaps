@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">सुनिश्चित करें कि आपने कोई निजी या व्यक्तिगत डेटा दर्ज नहीं किया है।</string>
     <string name="editor_share_to_all_dialog_message_2">OpenStreetMap संपादक परिवर्तन की जाँच करेंगे और यदि उनके कोई प्रश्न हों तो आपसे संपर्क करेंगे।</string>
     <string name="navigation_stop_button">रुकें</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">मार्ग फिर से निकाला जा रहा है…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">और परिणाम देखने के लिए गाड़ी रोकें</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">ट्रैक रिकॉर्ड करना</string>
     <!-- For the first routing -->
@@ -676,6 +680,7 @@
     <string name="closes_at">%s बजे बंद हो जाता है</string>
     <string name="editor_add_select_category_all_subtitle">सभी श्रेणियाँ</string>
     <string name="placepage_replace_stop">स्टॉप बदलें</string>
+    <string name="keyboard_availability_alert">ड्राइविंग के दौरान कीबोर्ड उपलब्ध नहीं है</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">खाना</string>

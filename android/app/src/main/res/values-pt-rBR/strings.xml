@@ -354,6 +354,10 @@
     <string name="editor_share_to_all_dialog_message_1">Certifique-se de não ter incluído nenhum dado pessoal.</string>
     <string name="editor_share_to_all_dialog_message_2">Os editores do OpenStreetMap verificarão as mudanças e entrarão em contato com você se tiverem alguma dúvida.</string>
     <string name="navigation_stop_button">Pare</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Recalculando a rota…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Pare o veículo para ver mais resultados</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Registro da pista</string>
     <!-- For the first routing -->
@@ -474,6 +478,7 @@
     <string name="opens_at">Abre em %s</string>
     <string name="closes_at">Encerra às %s</string>
     <string name="placepage_replace_stop">Substituir a parada</string>
+    <string name="keyboard_availability_alert">O teclado não está disponível enquanto dirige</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Alimentos</string>

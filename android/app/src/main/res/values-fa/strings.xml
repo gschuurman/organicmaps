@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">مطمئن شوید که هیچ اطلاعات شخصی وارد نکرده باشد.</string>
     <string name="editor_share_to_all_dialog_message_2">ویرایشگران OpenStreetMap ﺗﻐﯿﯿﺮﺍﺕ ﺭﺍ ﺑﺮﺭﺳﯽ ﮐﺮﺩﻩ ﻭ ﺩﺭ ﺻﻮﺭﺕ ﺩﺍﺷﺘﻦ ﻫﺮﮔﻮﻧﻪ ﺳﻮﺍﻝ ﺑﺎ ﺷﻤﺎ ﺗﻤﺎﺱ ﺧﻮﺍﻫﻨﺪ ﮔﺮﻓﺖ.</string>
     <string name="navigation_stop_button">توقف</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">در حال محاسبه مجدد مسیر…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">برای دیدن نتایج بیشتر توقف کنید</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">در حال ضبط مسیر</string>
     <!-- For the first routing -->
@@ -685,6 +689,7 @@
     <string name="closes_at">در %s بسته می‌شود</string>
     <string name="editor_add_select_category_all_subtitle">همه دسته‌بندی‌ها</string>
     <string name="placepage_replace_stop">جایگزین Stop</string>
+    <string name="keyboard_availability_alert">صفحه کلید در هنگام رانندگی در دسترس نیست</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">غذا</string>

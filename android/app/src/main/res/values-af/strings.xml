@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Maak seker u het geen privaat of persoonlike data ingevoer nie.</string>
     <string name="editor_share_to_all_dialog_message_2">OpenStraatMap-redigeerders sal die verandeirnge nagaan en u kontak indien hulle vrae het.</string>
     <string name="navigation_stop_button">Stop</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Herbeplan roete…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Trek van die pad af om meer resultate te sien</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Opname van die spoor</string>
     <!-- For the first routing -->
@@ -682,6 +686,7 @@
     <string name="closes_at">Sluit om %s</string>
     <string name="editor_add_select_category_all_subtitle">Kategorieë</string>
     <string name="placepage_replace_stop">Vervang Stop</string>
+    <string name="keyboard_availability_alert">Toetsbord is nie beskikbaar terwyl u bestuur nie</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Kos</string>

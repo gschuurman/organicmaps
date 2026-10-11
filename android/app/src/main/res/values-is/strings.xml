@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Gakktu úr skugga um að þú hafir ekki sett inn nein einkagögn eða persónulegar upplýsingar.</string>
     <string name="editor_share_to_all_dialog_message_2">Ritstjórar OpenStreetMap munu yfirfara breytingarnar og hafa samband við þig ef þeir eru með spurningar.</string>
     <string name="navigation_stop_button">Stöðva</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Endurreiknar leið…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Leggðu bílnum til að sjá fleiri niðurstöður</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Skrái ferilinn</string>
     <!-- For the first routing -->
@@ -688,6 +692,7 @@
     <string name="closes_at">Lokar %s</string>
     <string name="editor_add_select_category_all_subtitle">Allir flokkar</string>
     <string name="placepage_replace_stop">Skipta út stoppi</string>
+    <string name="keyboard_availability_alert">Lyklaborð er ekki tiltækt á meðan akstri stendur</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Matur</string>

@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Heç bir şəxsi məlumat daxil etmədiyinizə əmin olun.</string>
     <string name="editor_share_to_all_dialog_message_2">OpenStreetMap redaktorları dəyişikliklərinizi yoxlayacaq və hər hansı sualınız olarsa, sizinlə əlaqə saxlayacaq.</string>
     <string name="navigation_stop_button">Dayan</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Marşrut yenidən hesablanır…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Daha çox nəticə görmək üçün kənarda dayanın</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Marşrutu qeyd etmək</string>
     <!-- For the first routing -->
@@ -685,6 +689,7 @@
     <string name="closes_at">Bağlanır %s</string>
     <string name="editor_add_select_category_all_subtitle">Bütün kateqoriyalar</string>
     <string name="placepage_replace_stop">Duruşu əvəz et</string>
+    <string name="keyboard_availability_alert">Sürücülük zamanı klaviatura istifadə edilə bilməz</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Qida</string>

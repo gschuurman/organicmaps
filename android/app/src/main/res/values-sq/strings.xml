@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Sigurohuni që nuk keni futur të dhëna private ose personale.</string>
     <string name="editor_share_to_all_dialog_message_2">Redaktorët e OpenStreetMap do të kontrollojnë ndryshimet dhe do t\'ju kontaktojnë nëse kanë ndonjë pyetje.</string>
     <string name="navigation_stop_button">Ndal</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Duke rillogaritur rrugën…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Ndaloni për të parë më shumë rezultate</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Duke regjistruar gjurmën</string>
     <!-- For the first routing -->
@@ -673,6 +677,7 @@
     <string name="closes_at">Mbyllet në %s</string>
     <string name="editor_add_select_category_all_subtitle">Të Gjitha Kategoritë</string>
     <string name="placepage_replace_stop">Zëvendëso Ndalesën</string>
+    <string name="keyboard_availability_alert">Tastiera nuk është e disponueshme gjatë drejtimit të mjetit</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Ushqim</string>

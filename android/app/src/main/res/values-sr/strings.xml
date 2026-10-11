@@ -507,6 +507,10 @@
     <string name="editor_share_to_all_dialog_message_1">Проверите да нисте унели приватне или личне податке.</string>
     <string name="editor_share_to_all_dialog_message_2">OpenStreetMap мапери ће проверити промене и контактирати Вас уколико буду имали питања.</string>
     <string name="navigation_stop_button">Стоп</string>
+    <!-- Shown on the turn card while the route is rebuilt during navigation -->
+    <string name="navigation_rerouting">Поновно израчунавање руте…</string>
+    <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
+    <string name="car_pull_over_for_more_results">Зауставите се да бисте видели више резултата</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Снимање путање</string>
     <!-- For the first routing -->
@@ -688,6 +692,7 @@
     <string name="closes_at">Затвара се у %s</string>
     <string name="editor_add_select_category_all_subtitle">Све категорије</string>
     <string name="placepage_replace_stop">Замени Stop</string>
+    <string name="keyboard_availability_alert">Тастатура је онемогућена у току вожње</string>
 
     <!-- SECTION: Bookmark types used for sorting -->
     <string name="food_places">Храна</string>
