@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android Automotive OS, like Google Maps there: the turn card at the top start, the trip panel below it at the
+<!-- Android Automotive OS, like Google Maps there: the turn card at the top start, the trip card below it at the
      bottom start. Based on layout-land/layout_nav.xml, NavigationController and NavMenu need the same ids. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -25,9 +25,9 @@
       android:visibility="gone"
       tools:visibility="visible" />
 
+    <!-- Transparent: the trip card floats inside it, see layout_nav_bottom_car.xml -->
     <FrameLayout
       android:id="@+id/nav_bottom_sheet"
-      style="?attr/bottomSheetStyle"
       android:layout_width="@dimen/car_nav_panel_width"
       android:layout_height="wrap_content"
       android:layout_gravity="start"
@@ -42,6 +42,5 @@
     android:id="@+id/nav_bottom_sheet_nav_bar"
     android:layout_width="0dp"
     android:layout_height="0dp"
-    android:layout_gravity="bottom|start"
-    android:background="?cardBackground"/>
+    android:layout_gravity="bottom|start" />
 </FrameLayout>

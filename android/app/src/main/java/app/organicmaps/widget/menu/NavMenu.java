@@ -57,6 +57,7 @@ public class NavMenu implements DefaultLifecycleObserver
   }
 
   private final OnMenuSizeChangedListener mOnMenuSizeChangedListener;
+  private final boolean mExpandable;
 
   public NavMenu(AppCompatActivity activity, NavMenuListener navMenuListener,
                  OnMenuSizeChangedListener onMenuSizeChangedListener)
@@ -65,6 +66,8 @@ public class NavMenu implements DefaultLifecycleObserver
     mNavMenuListener = navMenuListener;
     final View bottomFrame = mActivity.findViewById(R.id.nav_bottom_frame);
     mHeaderFrame = bottomFrame.findViewById(R.id.line_frame);
+    // The Android Automotive OS trip card (layout_nav_bottom_car.xml) shows everything, there is nothing to expand.
+    mExpandable = bottomFrame.findViewById(R.id.content_frame) != null;
     mOnMenuSizeChangedListener = onMenuSizeChangedListener;
     mHeaderFrame.setOnClickListener(v -> toggleNavMenu());
     mHeaderFrame.addOnLayoutChangeListener((view, i, i1, i2, i3, i4, i5, i6, i7) -> setPeekHeight());
@@ -152,6 +155,8 @@ public class NavMenu implements DefaultLifecycleObserver
 
   private void toggleNavMenu()
   {
+    if (!mExpandable)
+      return;
     if (getBottomSheetState() == BottomSheetBehavior.STATE_EXPANDED)
       collapseNavBottomSheet();
     else

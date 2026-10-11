@@ -173,6 +173,9 @@
   <dimen name="car_nav_lanes_height">76dp</dimen>
   <dimen name="car_nav_numbers_min_width">120dp</dimen>
   <dimen name="car_place_icon_size">56dp</dimen>
+  <!-- car_touch_target / 2 -->
+  <dimen name="car_pill_corner_radius">38dp</dimen>
+  <dimen name="car_dot_size">4dp</dimen>
 
   <dimen name="appbar_elevation">4dp</dimen>
 

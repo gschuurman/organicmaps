@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android Automotive OS counterpart of layout_nav_bottom.xml with car-sized controls, NavMenu needs the same ids. -->
+<!-- Android Automotive OS counterpart of layout_nav_bottom.xml, like the trip card of Google Maps there: a floating
+     card with the time left, the distance left and the arrival time, and the actions below. Everything is in the
+     always shown line_frame, there is no content_frame to expand. NavMenu needs the same ids. -->
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -10,73 +12,186 @@
   android:orientation="vertical"
   tools:showIn="@layout/layout_nav_car">
 
-  <LinearLayout
+  <FrameLayout
     android:id="@+id/line_frame"
-    android:gravity="center_vertical"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:clickable="true"
-    android:focusable="true">
+    android:clipToPadding="false"
+    android:paddingHorizontal="@dimen/car_margin_half"
+    android:paddingBottom="@dimen/car_margin_half">
 
-    <include layout="@layout/bottom_sheet_handle" />
-    <include layout="@layout/layout_nav_bottom_numbers_car" />
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/bg_car_panel"
+      android:elevation="@dimen/nav_elevation"
+      android:orientation="vertical"
+      android:paddingHorizontal="@dimen/car_margin"
+      android:paddingTop="@dimen/car_margin_half"
+      android:paddingBottom="@dimen/car_margin_half">
+
+      <!-- Time left, in the accent colour -->
+      <LinearLayout
+        android:id="@+id/time_values_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/time_hour_value"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:includeFontPadding="false"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Title.Accent"
+          tools:text="1" />
+
+        <TextView
+          android:id="@+id/time_hour_dimen"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_quarter"
+          android:layout_marginEnd="@dimen/margin_half"
+          android:includeFontPadding="false"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Title.Accent"
+          tools:text="h" />
+
+        <TextView
+          android:id="@+id/time_minute_value"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:includeFontPadding="false"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Title.Accent"
+          tools:text="14" />
+
+        <TextView
+          android:id="@+id/time_minute_dimen"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_quarter"
+          android:includeFontPadding="false"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Title.Accent"
+          tools:text="min" />
+      </LinearLayout>
+
+      <!-- Distance left · arrival time -->
+      <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_quarter"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+          android:id="@+id/distance_value"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Secondary"
+          tools:text="22" />
+
+        <TextView
+          android:id="@+id/distance_dimen"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/margin_quarter"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Secondary"
+          tools:text="km" />
+
+        <View
+          android:layout_width="@dimen/car_dot_size"
+          android:layout_height="@dimen/car_dot_size"
+          android:layout_marginHorizontal="@dimen/margin_half"
+          android:background="@drawable/bg_car_dot" />
+
+        <TextView
+          android:id="@+id/time_estimate"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:lines="1"
+          android:textAppearance="@style/MwmTextAppearance.Car.Secondary"
+          tools:text="16:30" />
+      </LinearLayout>
+
+      <!-- Actions, the exit first in a pill -->
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/car_margin_half"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+          android:id="@+id/stop"
+          style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+          android:layout_width="0dp"
+          android:layout_height="@dimen/car_touch_target"
+          android:layout_weight="1"
+          android:contentDescription="@string/navigation_stop_button"
+          android:insetTop="0dp"
+          android:insetBottom="0dp"
+          android:minWidth="0dp"
+          app:backgroundTint="?colorControlHighlight"
+          app:cornerRadius="@dimen/car_pill_corner_radius"
+          app:icon="@drawable/ic_close"
+          app:iconGravity="textStart"
+          app:iconPadding="0dp"
+          app:iconSize="@dimen/car_icon_size"
+          app:iconTint="?iconTint" />
+
+        <ImageView
+          android:id="@+id/tts_volume"
+          android:layout_width="0dp"
+          android:layout_height="@dimen/car_touch_target"
+          android:layout_marginStart="@dimen/car_spacing"
+          android:layout_weight="1"
+          android:background="?selectableItemBackgroundBorderless"
+          android:contentDescription="@string/pref_tts_enable_title"
+          android:padding="@dimen/car_touch_target_icon_padding"
+          android:scaleType="fitCenter"
+          app:srcCompat="@drawable/ic_voice_on" />
+
+        <ImageView
+          android:id="@+id/settings"
+          android:layout_width="0dp"
+          android:layout_height="@dimen/car_touch_target"
+          android:layout_marginStart="@dimen/car_spacing"
+          android:layout_weight="1"
+          android:background="?selectableItemBackgroundBorderless"
+          android:contentDescription="@string/settings"
+          android:padding="@dimen/car_touch_target_icon_padding"
+          android:scaleType="fitCenter"
+          app:srcCompat="@drawable/ic_menu_settings"
+          app:tint="?iconTint" />
+      </LinearLayout>
+    </LinearLayout>
+
+    <!-- Not shown in the card, like in Google Maps; NavMenu still updates them. -->
+    <LinearLayout
+      android:id="@+id/speed_view_container"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:visibility="gone">
+
+      <TextView
+        android:id="@+id/speed_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+      <TextView
+        android:id="@+id/speed_dimen"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    </LinearLayout>
 
     <com.google.android.material.progressindicator.LinearProgressIndicator
       android:id="@+id/navigation_progress"
-      style="@style/Widget.MaterialComponents.LinearProgressIndicator"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      app:indicatorColor="?colorAccent"
-      app:trackCornerRadius="@dimen/nav_progress_head"
-      app:trackThickness="@dimen/nav_progress"
-      app:trackColor="@color/bg_routing_progress" />
-  </LinearLayout>
-
-  <LinearLayout
-    android:id="@+id/content_frame"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:gravity="center_vertical"
-    android:orientation="horizontal"
-    android:padding="@dimen/car_margin"
-    tools:background="#300000FF">
-
-    <ImageView
-      android:id="@+id/tts_volume"
-      android:layout_width="0dp"
-      android:layout_height="@dimen/car_touch_target"
-      android:layout_weight="0.2"
-      android:background="?selectableItemBackgroundBorderless"
-      android:contentDescription="@string/pref_tts_enable_title"
-      android:padding="@dimen/car_touch_target_icon_padding"
-      android:scaleType="fitCenter"
-      app:srcCompat="@drawable/ic_voice_on" />
-
-    <ImageView
-      android:id="@+id/settings"
-      android:layout_width="0dp"
-      android:layout_height="@dimen/car_touch_target"
-      android:layout_marginEnd="@dimen/car_spacing"
-      android:layout_weight="0.2"
-      android:background="?selectableItemBackgroundBorderless"
-      android:contentDescription="@string/settings"
-      android:padding="@dimen/car_touch_target_icon_padding"
-      android:scaleType="fitCenter"
-      app:srcCompat="@drawable/ic_menu_settings"
-      app:tint="?iconTint" />
-
-    <Button
-      android:id="@+id/stop"
-      android:layout_width="0dp"
-      android:layout_height="@dimen/car_touch_target"
-      android:layout_weight="0.4"
-      android:background="?redButtonBackground"
-      android:fontFamily="@string/robotoMedium"
-      android:minWidth="@dimen/start_button_width"
-      android:text="@string/navigation_stop_button"
-      android:textAppearance="@style/MwmTextAppearance.Button.Red"
-      android:textSize="@dimen/text_size_car_body"
-      tools:ignore="UnusedAttribute" />
-  </LinearLayout>
+      android:visibility="gone" />
+  </FrameLayout>
 </LinearLayout>
