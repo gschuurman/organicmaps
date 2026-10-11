@@ -24,7 +24,8 @@ public final class CarPlaces
   private static final String PREFS = "car_places";
   private static final String KEY_HOME = "home";
   private static final String KEY_RECENTS = "recents";
-  private static final int MAX_RECENTS = 5;
+  // Like Google Maps, a short list under the search: the search has the full history.
+  private static final int MAX_RECENTS = 2;
   // About 10 m: the same place navigated to again.
   private static final double SAME_PLACE_DEGREES = 1e-4;
 
