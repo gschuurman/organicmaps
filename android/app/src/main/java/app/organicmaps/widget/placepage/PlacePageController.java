@@ -29,6 +29,8 @@ import androidx.lifecycle.ViewModelProvider;
 import app.organicmaps.MwmActivity;
 import app.organicmaps.R;
 import app.organicmaps.api.Const;
+import app.organicmaps.automotive.Automotive;
+import app.organicmaps.automotive.CarPlaces;
 import app.organicmaps.bookmarks.ChooseBookmarkCategoryFragment;
 import app.organicmaps.intent.Factory;
 import app.organicmaps.sdk.ChoosePositionMode;
@@ -518,7 +520,17 @@ public class PlacePageController
     case ROUTE_AVOID_TOLL -> onAvoidTollBtnClicked();
     case ROUTE_AVOID_UNPAVED -> onAvoidUnpavedBtnClicked();
     case ROUTE_AVOID_FERRY -> onAvoidFerryBtnClicked();
+    case SET_HOME -> onSetHomeBtnClicked();
     }
+  }
+
+  private void onSetHomeBtnClicked()
+  {
+    if (mMapObject == null)
+      return;
+    CarPlaces.setHome(requireContext(), mMapObject);
+    // Back to the map, where home is now listed.
+    Framework.nativeDeactivatePopup();
   }
 
   private void onBookmarkBtnClicked()
@@ -769,6 +781,10 @@ public class PlacePageController
         }
       }
     }
+    // Android Automotive OS: any place can be the home address shown on the map, see CarPlaces.
+    if (showRoutingButton && !mapObject.isTrack() && !RoutingController.get().isPlanning()
+        && Automotive.isAutomotive(requireContext()))
+      buttons.add(PlacePageButtons.ButtonType.SET_HOME);
     mViewModel.setCurrentButtons(buttons);
   }
 

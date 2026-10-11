@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Android Automotive OS, like Google Maps there: search and bookmarks at the top start, where the search and
-     place page panels open, the map controls along the end edge. -->
+<!-- Android Automotive OS, like Google Maps there: at the top start, where the search and place page panels open,
+     the search pill with the home address and the latest places below it (CarPlacesPanel); the settings menu at
+     the bottom start; the map controls along the end edge. -->
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -19,24 +20,71 @@
     android:padding="@dimen/car_margin"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent">
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/btn_search"
-      style="@style/MwmWidget.MapButton.Car.Square"
-      android:contentDescription="@string/search"
+    <LinearLayout
+      android:id="@+id/car_places_panel"
+      android:layout_width="@dimen/car_nav_panel_width"
+      android:layout_height="wrap_content"
+      android:background="@drawable/bg_car_panel"
+      android:elevation="@dimen/nav_elevation"
+      android:orientation="vertical"
+      android:paddingBottom="@dimen/car_margin_half"
       app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintTop_toTopOf="parent"
-      app:shapeAppearanceOverlay="@style/MwmWidget.MapButton.Car.Square"
-      app:srcCompat="@drawable/ic_search" />
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/btn_bookmarks"
-      style="@style/MwmWidget.MapButton.Car.Square"
-      android:layout_marginStart="@dimen/car_spacing"
-      android:contentDescription="@string/bookmarks"
-      app:layout_constraintStart_toEndOf="@id/btn_search"
-      app:layout_constraintTop_toTopOf="parent"
-      app:shapeAppearanceOverlay="@style/MwmWidget.MapButton.Car.Square"
-      app:srcCompat="@drawable/ic_bookmarks_and_tracks" />
+      app:layout_constraintTop_toTopOf="parent">
+      <LinearLayout
+        android:id="@+id/car_search_pill"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/car_touch_target"
+        android:layout_margin="@dimen/car_margin_half"
+        android:background="@drawable/bg_car_search_pill"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <ImageView
+          android:id="@+id/btn_search"
+          android:layout_width="@dimen/car_touch_target"
+          android:layout_height="@dimen/car_touch_target"
+          android:background="?selectableItemBackgroundBorderless"
+          android:contentDescription="@string/search"
+          android:padding="@dimen/car_touch_target_icon_padding"
+          app:srcCompat="@drawable/ic_search"
+          app:tint="?iconTint" />
+        <TextView
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:ellipsize="end"
+          android:gravity="center"
+          android:maxLines="1"
+          android:text="@string/search"
+          android:textAppearance="@style/MwmTextAppearance.Car.Secondary" />
+        <ImageView
+          android:id="@+id/car_places_toggle"
+          android:layout_width="@dimen/car_touch_target"
+          android:layout_height="@dimen/car_touch_target"
+          android:background="?selectableItemBackgroundBorderless"
+          android:clickable="true"
+          android:contentDescription="@string/car_recent_places"
+          android:focusable="true"
+          android:padding="@dimen/car_touch_target_icon_padding"
+          app:srcCompat="@drawable/ic_expand_less"
+          app:tint="?iconTint" />
+      </LinearLayout>
+      <LinearLayout
+        android:id="@+id/car_places_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+    </LinearLayout>
   </androidx.constraintlayout.widget.ConstraintLayout>
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+    android:id="@+id/menu_button"
+    style="@style/MwmWidget.MapButton.Car"
+    android:layout_margin="@dimen/car_margin"
+    android:contentDescription="@string/menu"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:srcCompat="@drawable/ic_menu_settings" />
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/map_buttons_inner_right"
     android:layout_width="wrap_content"
@@ -47,13 +95,12 @@
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintTop_toTopOf="parent">
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-      android:id="@+id/menu_button"
-      style="@style/MwmWidget.MapButton.Car.Square"
-      android:contentDescription="@string/menu"
+      android:id="@+id/btn_bookmarks"
+      style="@style/MwmWidget.MapButton.Car"
+      android:contentDescription="@string/bookmarks"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent"
-      app:shapeAppearanceOverlay="@style/MwmWidget.MapButton.Car.Square"
-      app:srcCompat="@drawable/ic_menu_open" />
+      app:srcCompat="@drawable/ic_bookmarks_and_tracks" />
     <app.organicmaps.maplayer.LayersButton
       android:id="@+id/layers_button"
       style="@style/MwmWidget.MapButton.Car"
@@ -61,7 +108,7 @@
       android:contentDescription="@string/layers_title"
       android:tint="?accentColorSelector"
       app:layout_constraintEnd_toEndOf="parent"
-      app:layout_constraintTop_toBottomOf="@id/menu_button"
+      app:layout_constraintTop_toBottomOf="@id/btn_bookmarks"
       app:srcCompat="@drawable/ic_layers" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/track_recording_status"

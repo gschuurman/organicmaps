@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android Automotive OS: the search pill, a shade off the panel in both light and dark themes -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+  <solid android:color="?colorControlHighlight" />
+  <corners android:radius="@dimen/car_touch_target" />
+</shape>

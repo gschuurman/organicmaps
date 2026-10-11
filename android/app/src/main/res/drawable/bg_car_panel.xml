@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android Automotive OS: the places panel under the search on the map -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
+  <solid android:color="?cardBackground" />
+  <corners android:radius="@dimen/car_corner_radius" />
+</shape>

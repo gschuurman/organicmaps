@@ -24,6 +24,7 @@ import androidx.lifecycle.ViewModelProvider;
 import app.organicmaps.MwmActivity;
 import app.organicmaps.R;
 import app.organicmaps.automotive.Automotive;
+import app.organicmaps.automotive.CarPlacesPanel;
 import app.organicmaps.routing.RoutingPlanViewModel;
 import app.organicmaps.sdk.Framework;
 import app.organicmaps.sdk.downloader.MapManager;
@@ -463,6 +464,7 @@ public class MapButtonsController extends Fragment
     ViewCompat.setOnApplyWindowInsetsListener(
         view, WindowInsetUtils.PaddingInsetsListener.allSides(WindowInsetsCompat.Type.systemBars()
                                                               | WindowInsetsCompat.Type.displayCutout()));
+    CarPlacesPanel.bindIfPresent(view, this);
   }
 
   @Override

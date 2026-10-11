@@ -19,6 +19,7 @@ import androidx.lifecycle.LifecycleObserver;
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.ProcessLifecycleOwner;
 import androidx.preference.PreferenceManager;
+import app.organicmaps.automotive.CarPlaces;
 import app.organicmaps.automotive.DrivingRestrictions;
 import app.organicmaps.background.OsmUploadWork;
 import app.organicmaps.downloader.DownloaderNotifier;
@@ -145,6 +146,7 @@ public class MwmApplication extends Application implements Application.ActivityL
     });
     TrackRecordingService.createNotificationChannel(this);
     DrivingRestrictions.init(this);
+    CarPlaces.init(this);
 
     registerActivityLifecycleCallbacks(this);
     mDisplayManager = new DisplayManager();
