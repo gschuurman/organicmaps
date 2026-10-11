@@ -513,6 +513,14 @@
     <string name="navigation_rerouting">Поновно израчунавање руте…</string>
     <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
     <string name="car_pull_over_for_more_results">Зауставите се да бисте видели више резултата</string>
+    <!-- Android Automotive: the saved home address in the places list on the map -->
+    <string name="car_home">Кућа</string>
+    <!-- Android Automotive: place page button that saves the place as the home address -->
+    <string name="car_set_as_home">Постави као кућу</string>
+    <!-- Android Automotive: shown under Home in the places list while no home address is set -->
+    <string name="car_home_search">Потражите своју адресу</string>
+    <!-- Android Automotive: shows or hides the latest places navigated to, under the search on the map -->
+    <string name="car_recent_places">Недавна места</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Снимање путање</string>
     <!-- For the first routing -->

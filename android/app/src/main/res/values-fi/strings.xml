@@ -513,6 +513,14 @@
     <string name="navigation_rerouting">Lasketaan reittiä uudelleen…</string>
     <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
     <string name="car_pull_over_for_more_results">Pysähdy nähdäksesi lisää tuloksia</string>
+    <!-- Android Automotive: the saved home address in the places list on the map -->
+    <string name="car_home">Koti</string>
+    <!-- Android Automotive: place page button that saves the place as the home address -->
+    <string name="car_set_as_home">Aseta kodiksi</string>
+    <!-- Android Automotive: shown under Home in the places list while no home address is set -->
+    <string name="car_home_search">Hae osoitteesi</string>
+    <!-- Android Automotive: shows or hides the latest places navigated to, under the search on the map -->
+    <string name="car_recent_places">Viimeisimmät paikat</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Reitin kirjaaminen</string>
     <!-- For the first routing -->

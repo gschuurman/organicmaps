@@ -513,6 +513,14 @@
     <string name="navigation_rerouting">Route herberekenen…</string>
     <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
     <string name="car_pull_over_for_more_results">Stop om meer resultaten te zien</string>
+    <!-- Android Automotive: the saved home address in the places list on the map -->
+    <string name="car_home">Thuis</string>
+    <!-- Android Automotive: place page button that saves the place as the home address -->
+    <string name="car_set_as_home">Instellen als thuis</string>
+    <!-- Android Automotive: shown under Home in the places list while no home address is set -->
+    <string name="car_home_search">Zoek je adres</string>
+    <!-- Android Automotive: shows or hides the latest places navigated to, under the search on the map -->
+    <string name="car_recent_places">Recente plaatsen</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Het spoor opnemen</string>
     <!-- For the first routing -->

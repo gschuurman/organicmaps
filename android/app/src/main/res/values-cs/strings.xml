@@ -513,6 +513,14 @@
     <string name="navigation_rerouting">Přepočítávání trasy…</string>
     <!-- Android Automotive: shown at the end of a list that is cut short while driving -->
     <string name="car_pull_over_for_more_results">Pro zobrazení dalších výsledků zastavte</string>
+    <!-- Android Automotive: the saved home address in the places list on the map -->
+    <string name="car_home">Domov</string>
+    <!-- Android Automotive: place page button that saves the place as the home address -->
+    <string name="car_set_as_home">Nastavit jako domov</string>
+    <!-- Android Automotive: shown under Home in the places list while no home address is set -->
+    <string name="car_home_search">Vyhledejte svou adresu</string>
+    <!-- Android Automotive: shows or hides the latest places navigated to, under the search on the map -->
+    <string name="car_recent_places">Nedávná místa</string>
     <!-- Shown as toast when starting the recent track recording -->
     <string name="track_recording">Záznam trasy</string>
     <!-- For the first routing -->
