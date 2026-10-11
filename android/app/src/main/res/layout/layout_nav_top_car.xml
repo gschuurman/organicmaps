@@ -30,6 +30,7 @@
       android:layout_marginTop="@dimen/car_margin_half"
       android:layout_marginEnd="@dimen/car_margin_half"
       android:background="@drawable/bg_car_turn_card"
+      android:layoutDirection="locale"
       android:elevation="@dimen/nav_elevation"
       android:orientation="vertical">
 

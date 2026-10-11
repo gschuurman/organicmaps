@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Android Automotive OS, like Google Maps there: the turn card at the top and the trip card at the bottom, right of
-     the map controls column (map_buttons_layout_car_navigation.xml). Based on layout-land/layout_nav.xml, NavigationController and NavMenu need the same ids. -->
+     the map controls column (map_buttons_layout_car_navigation.xml). On the left, the driver side, in every language
+     (ltr). Based on layout-land/layout_nav.xml, NavigationController and NavMenu need the same ids. -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:id="@+id/navigation_frame"
+  android:layoutDirection="ltr"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 

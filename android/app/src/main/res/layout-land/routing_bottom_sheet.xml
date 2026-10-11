@@ -5,8 +5,10 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:id="@+id/routing_root">
+  <!-- Android Automotive OS pins this panel to the driver side (activity_map_car.xml), not its content -->
   <FrameLayout
     android:id="@+id/routing_bottom_container"
+    android:layoutDirection="locale"
     android:layout_width="0dp"
     android:layout_height="match_parent"
     app:layout_constraintBottom_toBottomOf="parent"

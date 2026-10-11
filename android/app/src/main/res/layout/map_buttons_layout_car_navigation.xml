@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- Android Automotive OS, like Google Maps there: the map controls in a column along the start edge, the turn
      card and the trip card right of it (layout_nav_car.xml). Search is kept low so that the search along the route
-     unfolds over the map, under the turn card. -->
+     unfolds over the map, under the turn card. On the left, the driver side, in every language (ltr). -->
 <androidx.constraintlayout.widget.ConstraintLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -9,6 +9,7 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:clipChildren="false"
+  android:layoutDirection="ltr"
   android:clipToPadding="false"
   tools:background="@color/bg_primary">
   <View

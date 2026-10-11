@@ -13,8 +13,10 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintWidth_percent="@fraction/place_page_bottom_sheet_width_ratio"
     tools:layout_constraintWidth_percent="0.5">
+    <!-- Android Automotive OS pins this panel to the driver side (activity_map_car.xml), not its content -->
     <FrameLayout
       android:id="@+id/search_page_container"
+      android:layoutDirection="locale"
       android:layout_width="match_parent"
       android:layout_height="match_parent"
       android:layout_gravity="bottom"

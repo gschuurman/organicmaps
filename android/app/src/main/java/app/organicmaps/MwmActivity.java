@@ -600,7 +600,10 @@ public class MwmActivity extends BaseMwmFragmentActivity
       if (mCurrentWindowInsets == null)
         updateCompassOffset(trackRecorderOffset + systemBars.top, systemBars.right);
       refreshLightStatusBar();
-      updateBottomWidgetsOffset(systemBars.left);
+      // Android Automotive OS: the ruler and the attribution go right of the map controls column.
+      final int controlsColumnWidth =
+          Automotive.isAutomotive(this) ? dimen(this, R.dimen.car_controls_column_width) : 0;
+      updateBottomWidgetsOffset(systemBars.left + controlsColumnWidth);
       mCurrentWindowInsets = windowInsets;
       return windowInsets;
     });

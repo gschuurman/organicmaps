@@ -6,8 +6,10 @@
   android:id="@+id/search_bottom_container"
   android:layout_width="match_parent"
   android:layout_height="match_parent">
+  <!-- Android Automotive OS pins this panel to the driver side (activity_map_car.xml), not its content -->
   <FrameLayout
     android:id="@+id/search_page_container"
+    android:layoutDirection="locale"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="bottom|center_horizontal"

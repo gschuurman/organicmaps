@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!-- WARNING: This file has a phone and tablet counterpart in layout/activity_map.xml. -->
+<!-- The panels stay on the left, the driver side of a left-hand drive car, in every language: ltr here, their
+     content is back to the language direction inside. -->
 <androidx.coordinatorlayout.widget.CoordinatorLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:tools="http://schemas.android.com/tools"
@@ -51,15 +53,18 @@
   </RelativeLayout>
   <androidx.fragment.app.FragmentContainerView
     android:id="@+id/search_container_fragment"
+    android:layoutDirection="ltr"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:name="app.organicmaps.search.SearchFragmentController" />
   <FrameLayout
     android:id="@+id/routing_container"
+    android:layoutDirection="ltr"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
   <androidx.fragment.app.FragmentContainerView
     android:id="@+id/place_page_container_fragment"
+    android:layoutDirection="ltr"
     android:name="app.organicmaps.widget.placepage.PlacePageController"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
