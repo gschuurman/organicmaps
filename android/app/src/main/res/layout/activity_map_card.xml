@@ -36,7 +36,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="top"
-      android:layout_margin="12dp"
+      android:layout_margin="@dimen/car_margin_half"
       android:gravity="center_vertical"
       android:orientation="horizontal"
       android:visibility="gone">
@@ -44,7 +44,7 @@
     <LinearLayout
         android:id="@+id/search"
         android:layout_width="0dp"
-        android:layout_height="56dp"
+        android:layout_height="@dimen/car_touch_target"
         android:layout_weight="1"
         android:background="@drawable/bg_map_card_pill"
         android:clickable="true"
@@ -52,11 +52,11 @@
         android:focusable="true"
         android:gravity="center_vertical"
         android:orientation="horizontal"
-        android:paddingHorizontal="16dp">
+        android:paddingHorizontal="@dimen/car_margin">
 
       <ImageView
-          android:layout_width="24dp"
-          android:layout_height="24dp"
+          android:layout_width="@dimen/car_icon_size"
+          android:layout_height="@dimen/car_icon_size"
           android:importantForAccessibility="no"
           app:srcCompat="@drawable/ic_search"
           app:tint="?iconTint" />
@@ -64,16 +64,16 @@
       <TextView
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_marginStart="12dp"
+          android:layout_marginStart="@dimen/car_margin_half"
           android:text="@string/search"
-          android:textAppearance="@style/MwmTextAppearance.Body1" />
+          android:textAppearance="@style/MwmTextAppearance.Car" />
     </LinearLayout>
 
     <ImageButton
         android:id="@+id/bookmarks"
-        android:layout_width="56dp"
-        android:layout_height="56dp"
-        android:layout_marginStart="12dp"
+        android:layout_width="@dimen/car_touch_target"
+        android:layout_height="@dimen/car_touch_target"
+        android:layout_marginStart="@dimen/car_spacing"
         android:background="@drawable/bg_map_card_pill"
         android:contentDescription="@string/bookmarks_and_tracks"
         android:elevation="4dp"
@@ -81,35 +81,36 @@
         app:tint="?iconTint" />
   </LinearLayout>
 
-  <!-- Replaces the search bar while navigating: next turn, distance to it, next street and arrival. -->
+  <!-- Replaces the search bar while navigating, coloured like the turn card of the full app:
+       next turn, distance to it, next street and arrival. -->
   <LinearLayout
       android:id="@+id/nav_banner"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_gravity="top"
-      android:layout_margin="12dp"
-      android:background="@drawable/bg_map_card_pill"
+      android:layout_margin="@dimen/car_margin_half"
+      android:background="@drawable/bg_car_turn_card"
       android:clickable="true"
       android:elevation="4dp"
       android:focusable="true"
       android:gravity="center_vertical"
-      android:minHeight="72dp"
+      android:minHeight="@dimen/car_touch_target"
       android:orientation="horizontal"
-      android:paddingHorizontal="16dp"
-      android:paddingVertical="8dp"
+      android:padding="@dimen/car_margin_half"
       android:visibility="gone">
 
     <ImageView
         android:id="@+id/nav_turn"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
+        android:layout_width="@dimen/car_touch_target"
+        android:layout_height="@dimen/car_touch_target"
         android:importantForAccessibility="no"
+        android:theme="?navigationTheme"
         app:tint="?iconTint" />
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/car_margin_half"
         android:layout_weight="1"
         android:orientation="vertical">
 
@@ -117,7 +118,7 @@
           android:id="@+id/nav_turn_distance"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:textAppearance="@style/MwmTextAppearance.Headline" />
+          android:textAppearance="@style/MwmTextAppearance.Car.NavStreet" />
 
       <TextView
           android:id="@+id/nav_next_street"
@@ -125,13 +126,13 @@
           android:layout_height="wrap_content"
           android:ellipsize="end"
           android:maxLines="1"
-          android:textAppearance="@style/MwmTextAppearance.Body2" />
+          android:textAppearance="@style/MwmTextAppearance.Car.Inverse" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="@dimen/car_margin_half"
         android:gravity="end"
         android:orientation="vertical">
 
@@ -139,13 +140,13 @@
           android:id="@+id/nav_arrival"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:textAppearance="@style/MwmTextAppearance.Body1" />
+          android:textAppearance="@style/MwmTextAppearance.Car.Inverse" />
 
       <TextView
           android:id="@+id/nav_remaining"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:textAppearance="@style/MwmTextAppearance.Body2" />
+          android:textAppearance="@style/MwmTextAppearance.Car.Inverse" />
     </LinearLayout>
   </LinearLayout>
 

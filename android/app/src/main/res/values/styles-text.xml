@@ -207,6 +207,10 @@
   </style>
 
   <!-- On the accent coloured turn card -->
+  <style name="MwmTextAppearance.Car.Inverse">
+    <item name="android:textColor">?android:textColorPrimaryInverse</item>
+  </style>
+
   <style name="MwmTextAppearance.Car.NavStreet">
     <item name="android:textSize">@dimen/text_size_car_title</item>
     <item name="android:textColor">?android:textColorPrimaryInverse</item>
