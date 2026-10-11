@@ -45,6 +45,7 @@ enum SearchCategoryIconRenderer {
     "children": IconStyle(iconName: "ic_bm_family", background: .tourism),
     "eat": IconStyle(iconName: "ic_bm_food", background: .food),
     "entertainment": IconStyle(iconName: "ic_bm_entertainment", background: .tourism),
+    "ev_charging": IconStyle(iconName: "ic_bm_chargingstation", background: .neutral),
     "food": IconStyle(iconName: "ic_bm_supermarket", background: .shopping),
     "fuel": IconStyle(iconName: "ic_bm_gas", background: .neutral),
     "hospital": IconStyle(iconName: "ic_bm_hospital", background: .medical),

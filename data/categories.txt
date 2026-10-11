@@ -306,6 +306,53 @@ zh-Hans:停车场
 zh-Hant:停車場
 
 
+# First keyword should match [category_ev_charging] definition in strings.txt!
+@category_ev_charging
+en:4EV Charging|2EV|electric car charging
+ar:شحن السيارات الكهربائية
+be:4Зарадка электрамабіляў
+bg:4Зареждане на електромобили
+ca:4Recàrrega de vehicles elèctrics
+cs:4Nabíjení elektromobilů
+da:4Elbilopladning
+de:4E-Ladestation
+el:4Φόρτιση ηλεκτρικών οχημάτων
+es:4Recarga de vehículos eléctricos
+et:4Elektriauto laadimine
+eu:4Ibilgailu elektrikoen karga
+fa:شارژ خودروی برقی
+fi:4Sähköauton lataus
+fr:4Recharge de véhicules électriques
+he:טעינת רכב חשמלי
+hi:ईवी चार्जिंग
+hu:4Elektromosautó-töltés
+id:4Pengisian daya kendaraan listrik
+it:4Ricarica veicoli elettrici
+ja:EV充電
+ko:전기차 충전
+lt:4Elektromobilių įkrovimas
+lv:4Elektroauto uzlāde
+mr:ईव्ही चार्जिंग
+nb:4Elbillading
+nl:4Laadpalen
+pl:4Ładowanie pojazdów elektrycznych
+pt:4Carregamento de veículos elétricos
+pt-BR:4Recarga de veículos elétricos
+ro:4Încărcare vehicule electrice
+ru:4Зарядка электромобилей
+sk:4Nabíjanie elektromobilov
+sl:4Polnjenje električnih vozil
+sr:4Пуњење електричних возила
+sv:4Elbilsladdning
+sw:4Kuchaji magari ya umeme
+th:ชาร์จรถยนต์ไฟฟ้า
+tr:4Elektrikli araç şarjı
+uk:4Зарядка електромобілів
+vi:4Sạc xe điện
+zh-Hans:电动车充电
+zh-Hant:電動車充電
+
+
 # First keyword should match [category_shopping] definition in strings.txt!
 @category_shopping
 en:4Shopping
@@ -14734,7 +14781,7 @@ vi:Trạm sạc|điểm sạc
 zh-Hans:充电站|充电桩|充电
 zh-Hant:充電站|充電樁|充電
 
-amenity-charging_station|@charging_station
+amenity-charging_station|@charging_station|@category_ev_charging
 ja:充電ステーション
 ko:충전소|충전 역
 sl:Polnilna postaja
@@ -14783,7 +14830,7 @@ vi:Sạc xe đạp
 zh-Hans:自行车充电|自行车充电站
 zh-Hant:自行車充電|自行車充電站
 
-amenity-charging_station-motorcar|@charging_station
+amenity-charging_station-motorcar|@charging_station|@category_ev_charging
 en:2EV Charger|EV Charging|4Motorcar Charging|3Car Charger|Car Charging|3Tesla|Ionity|ChargePoint
 en-GB:2EV Charger|EV Charging|4Motorcar Charging|3Car Charger|Car Charging|3Tesla|Ionity|ChargePoint|Pod Point
 ar:3شاحن سيارة|شحن سيارة كهربائية
