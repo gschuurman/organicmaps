@@ -85,6 +85,11 @@
       android:manageSpaceActivity="${applicationId}.ManageSpaceActivity"
       tools:targetApi="33">
 
+    <!-- Android Automotive OS: the car's UX restrictions while driving, see DrivingRestrictions -->
+    <uses-library
+        android:name="android.car"
+        android:required="false" />
+
     <!-- Allows for config and orientation change without killing/restarting main activity -->
     <activity
       android:name="app.organicmaps.SplashActivity"

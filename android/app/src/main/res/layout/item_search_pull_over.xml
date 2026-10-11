@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android Automotive OS: ends a search result list cut short while driving -->
+<TextView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:gravity="center"
+  android:minHeight="@dimen/car_touch_target"
+  android:padding="@dimen/car_margin_half"
+  android:text="@string/car_pull_over_for_more_results"
+  android:textAppearance="@style/MwmTextAppearance.Car.Secondary" />

@@ -9,6 +9,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Toast;
 import androidx.activity.OnBackPressedCallback;
 import androidx.activity.result.ActivityResult;
 import androidx.annotation.NonNull;
@@ -36,6 +37,8 @@ public class SearchToolbarController extends ToolbarController
   private boolean mEndIconQueryEmpty;
   private int mAppliedHint;
   private boolean mFromCategory = false;
+  // Android Automotive OS: false while driving, see setKeyboardAllowed().
+  private boolean mKeyboardAllowed = true;
   // Pending listener that shows the keyboard once the window gains focus (see activate()).
   @Nullable
   private ViewTreeObserver.OnWindowFocusChangeListener mShowKeyboardOnFocus;
@@ -75,6 +78,11 @@ public class SearchToolbarController extends ToolbarController
       boolean isSearchAction = (actionId == EditorInfo.IME_ACTION_SEARCH);
 
       return (isSearchDown || isSearchAction) && onStartSearchClick();
+    });
+    // Only clickable while the keyboard is not allowed, see setKeyboardAllowed().
+    mQuery.setOnClickListener(v -> {
+      if (!mKeyboardAllowed)
+        showKeyboardNotAllowed();
     });
     mProgress = mSearchContainer.findViewById(R.id.progress);
     showProgress(false);
@@ -210,6 +218,11 @@ public class SearchToolbarController extends ToolbarController
 
   public void activate()
   {
+    if (!mKeyboardAllowed)
+    {
+      showKeyboardNotAllowed();
+      return;
+    }
     mQuery.requestFocus();
     removeShowKeyboardOnFocusListener();
     mShowKeyboardOnFocus = hasFocus ->
@@ -234,6 +247,29 @@ public class SearchToolbarController extends ToolbarController
     removeShowKeyboardOnFocusListener();
     InputUtils.hideKeyboard(mQuery);
     InputUtils.removeFocusEditTextHack(mQuery);
+  }
+
+  /**
+   * Android Automotive OS: the keyboard can't be used while driving, like in Google Maps there the query field then
+   * only explains it when tapped. Voice search can still be used.
+   */
+  public void setKeyboardAllowed(boolean allowed)
+  {
+    if (mKeyboardAllowed == allowed)
+      return;
+    mKeyboardAllowed = allowed;
+    if (allowed)
+      mQuery.setFocusableInTouchMode(true);
+    else
+    {
+      deactivate();
+      mQuery.setFocusable(false);
+    }
+  }
+
+  private void showKeyboardNotAllowed()
+  {
+    Toast.makeText(requireActivity(), R.string.keyboard_availability_alert, Toast.LENGTH_SHORT).show();
   }
 
   private void removeShowKeyboardOnFocusListener()

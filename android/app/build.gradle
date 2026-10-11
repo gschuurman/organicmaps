@@ -47,6 +47,9 @@ android {
   // uncommenting the `enableKotlin = true` stub in their own build.gradle.
   enableKotlin = true
 
+  // Android Automotive OS: the car's UX restrictions while driving (app.organicmaps.automotive.DrivingRestrictions).
+  useLibrary 'android.car'
+
   buildFeatures {
     dataBinding = true
     buildConfig = true

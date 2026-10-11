@@ -19,9 +19,13 @@ import app.organicmaps.util.UiUtils;
 
 class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchDataViewHolder>
 {
+  // Android Automotive OS: ends a list cut short while driving, see setMaxItems().
+  private static final int TYPE_PULL_OVER = -1;
+
   private final SearchFragment mSearchFragment;
   @Nullable
   private SearchResult[] mResults;
+  private int mMaxItems = Integer.MAX_VALUE;
 
   static abstract class SearchDataViewHolder extends RecyclerView.ViewHolder
   {
@@ -199,6 +203,18 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchDataViewHol
     }
   }
 
+  private static class PullOverViewHolder extends SearchDataViewHolder
+  {
+    PullOverViewHolder(@NonNull View view)
+    {
+      super(view);
+    }
+
+    @Override
+    void bind(@NonNull SearchResult result, int position)
+    {}
+  }
+
   SearchAdapter(SearchFragment fragment)
   {
     mSearchFragment = fragment;
@@ -216,6 +232,7 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchDataViewHol
         new SuggestViewHolder(inflater.inflate(R.layout.item_search_suggest, parent, false));
       case SearchResult.TYPE_RESULT ->
         new ResultViewHolder(inflater.inflate(R.layout.item_search_result, parent, false));
+      case TYPE_PULL_OVER -> new PullOverViewHolder(inflater.inflate(R.layout.item_search_pull_over, parent, false));
       default -> throw new IllegalArgumentException("Unhandled view type given");
     };
   }
@@ -223,13 +240,14 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchDataViewHol
   @Override
   public void onBindViewHolder(@NonNull SearchDataViewHolder holder, int position)
   {
-    holder.bind(mResults[position], position);
+    if (!(holder instanceof PullOverViewHolder))
+      holder.bind(mResults[position], position);
   }
 
   @Override
   public int getItemViewType(int position)
   {
-    return mResults[position].type;
+    return isLimited() && position == mMaxItems ? TYPE_PULL_OVER : mResults[position].type;
   }
 
   @Override
@@ -245,8 +263,22 @@ class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchDataViewHol
     if (mResults == null)
       return res;
 
-    res += mResults.length;
+    res += isLimited() ? mMaxItems + 1 : mResults.length;
     return res;
+  }
+
+  private boolean isLimited()
+  {
+    return mResults != null && mResults.length > mMaxItems;
+  }
+
+  /** Android Automotive OS: how many results can be shown while driving, Integer.MAX_VALUE for all. */
+  void setMaxItems(int maxItems)
+  {
+    if (mMaxItems == maxItems)
+      return;
+    mMaxItems = maxItems;
+    notifyDataSetChanged();
   }
 
   public void clear()

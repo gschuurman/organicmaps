@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import app.organicmaps.MwmApplication;
 import app.organicmaps.R;
+import app.organicmaps.automotive.DrivingRestrictions;
 import app.organicmaps.downloader.CountrySuggestFragment;
 import app.organicmaps.maplayer.MapButtonsViewModel;
 import app.organicmaps.routing.RoutePointLabels;
@@ -465,6 +466,10 @@ public class SearchFragment extends Fragment implements SearchListener, Categori
 
     mResults.setLayoutManager(new LinearLayoutManager(view.getContext()));
     mResults.setAdapter(mSearchAdapter);
+    DrivingRestrictions.get().observe(getViewLifecycleOwner(), restrictions -> {
+      mToolbarController.setKeyboardAllowed(!restrictions.keyboardRestricted);
+      mSearchAdapter.setMaxItems(restrictions.maxListItems);
+    });
 
     mPager.setClipToPadding(false);
     // Store insets and dispatch to tab fragment RecyclerViews.
