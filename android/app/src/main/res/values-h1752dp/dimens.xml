@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Android Automotive OS: larger touch targets on very tall (portrait) screens, like the car UI library -->
+  <dimen name="car_touch_target">96dp</dimen>
+  <dimen name="car_icon_size">56dp</dimen>
+</resources>

@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- Android Automotive OS: keyline of the car UI library on very wide screens -->
+  <dimen name="car_margin">48dp</dimen>
+</resources>
