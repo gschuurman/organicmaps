@@ -183,6 +183,41 @@
     <item name="android:textSize">@dimen/text_size_nav_circle_exit</item>
   </style>
 
+  <!-- Android Automotive OS: no bold, it is less legible in a car -->
+  <style name="MwmTextAppearance.Car">
+    <item name="android:textSize">@dimen/text_size_car_body</item>
+    <item name="android:textColor">?android:textColorPrimary</item>
+  </style>
+
+  <style name="MwmTextAppearance.Car.Secondary">
+    <item name="android:textColor">?android:textColorSecondary</item>
+  </style>
+
+  <style name="MwmTextAppearance.Car.Accent">
+    <item name="android:textColor">?colorAccent</item>
+  </style>
+
+  <style name="MwmTextAppearance.Car.Title">
+    <item name="android:textSize">@dimen/text_size_car_title</item>
+    <item name="android:fontFamily">@string/robotoMedium</item>
+  </style>
+
+  <style name="MwmTextAppearance.Car.Title.Accent">
+    <item name="android:textColor">?colorAccent</item>
+  </style>
+
+  <!-- On the accent coloured turn card -->
+  <style name="MwmTextAppearance.Car.NavStreet">
+    <item name="android:textSize">@dimen/text_size_car_title</item>
+    <item name="android:textColor">?android:textColorPrimaryInverse</item>
+  </style>
+
+  <style name="MwmTextAppearance.Car.NavNextTurn">
+    <item name="android:textSize">@dimen/text_size_car_display</item>
+    <item name="android:fontFamily">@string/robotoMedium</item>
+    <item name="android:textColor">?android:textColorPrimaryInverse</item>
+  </style>
+
   <style name="MwmTextAppearance.PlacePage" parent="MwmTextAppearance.Body1"/>
 
   <style name="MwmTextAppearance.PlacePage.Accent">

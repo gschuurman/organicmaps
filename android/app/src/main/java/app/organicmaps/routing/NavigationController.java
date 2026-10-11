@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.lifecycle.ViewModelProvider;
 import app.organicmaps.MwmApplication;
 import app.organicmaps.R;
+import app.organicmaps.automotive.Automotive;
 import app.organicmaps.maplayer.MapButtonsViewModel;
 import app.organicmaps.sdk.Router;
 import app.organicmaps.sdk.maplayer.traffic.TrafficManager;
@@ -54,6 +55,7 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
   private final MapButtonsViewModel mMapButtonsViewModel;
   private final View mTopFrame;
   private final View mNextTurnContainer;
+  private final boolean mStreetInTurnCard;
 
   private final NavMenu mNavMenu;
   View.OnClickListener mOnSettingsClickListener;
@@ -83,6 +85,9 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
 
     mStreetFrame = mTopFrame.findViewById(R.id.street_frame);
     mNextStreet = mStreetFrame.findViewById(R.id.street);
+    // On Android Automotive OS the street is shown inside the turn card (layout_nav_top_car.xml)
+    // instead of a bar along the top edge.
+    mStreetInTurnCard = Automotive.isAutomotive(activity);
 
     mLanesView = mTopFrame.findViewById(R.id.lanes);
 
@@ -93,7 +98,8 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
     final View navBottomSheet = mFrame.findViewById(R.id.nav_bottom_sheet);
     mNextTurnContainer = mFrame.findViewById(R.id.nav_next_turn_container);
 
-    ViewCompat.setOnApplyWindowInsetsListener(mStreetFrame, BaselinePaddingInsetsListener.excludeBottom());
+    if (!mStreetInTurnCard)
+      ViewCompat.setOnApplyWindowInsetsListener(mStreetFrame, BaselinePaddingInsetsListener.excludeBottom());
 
     ViewCompat.setOnApplyWindowInsetsListener(mTopFrame, (v, windowInsets) -> {
       final Insets safeDrawing = windowInsets.getInsets(WindowInsetUtils.TYPE_SAFE_DRAWING);
@@ -101,8 +107,10 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
       // cutouts and system bars regardless of layout direction.
       final boolean isRtl = v.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
       final int startInset = isRtl ? safeDrawing.right : safeDrawing.left;
-      mNextTurnContainer.setPaddingRelative(startInset, mNextTurnContainer.getPaddingTop(),
-                                            mNextTurnContainer.getPaddingEnd(), mNextTurnContainer.getPaddingBottom());
+      // Without the street bar above it, the turn card must clear the top system bar itself.
+      final int topPadding = mStreetInTurnCard ? safeDrawing.top : mNextTurnContainer.getPaddingTop();
+      mNextTurnContainer.setPaddingRelative(startInset, topPadding, mNextTurnContainer.getPaddingEnd(),
+                                            mNextTurnContainer.getPaddingBottom());
       return windowInsets;
     });
 
@@ -132,6 +140,8 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
   // street frame in portrait.
   private int computeNavContentHeight()
   {
+    if (mStreetInTurnCard)
+      return mNextTurnContainer.getBottom();
     int turnAndSpeedHeight = 0;
     if (mFrame.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
     {
@@ -182,12 +192,18 @@ public class NavigationController implements TrafficManager.TrafficCallback, Nav
   private void updateStreetView(@NonNull RoutingInfo info)
   {
     boolean hasStreet = !TextUtils.isEmpty(info.nextStreet);
-    // Sic: don't use UiUtils.showIf() here because View.GONE breaks layout
+    // Sic: don't use UiUtils.showIf() for the street bar because View.GONE breaks layout
     // https://github.com/organicmaps/organicmaps/issues/3732
-    UiUtils.visibleIf(hasStreet, mStreetFrame);
+    if (mStreetInTurnCard)
+      UiUtils.showIf(hasStreet, mStreetFrame);
+    else
+      UiUtils.visibleIf(hasStreet, mStreetFrame);
     if (!TextUtils.isEmpty(info.nextStreet))
       mNextStreet.setText(RoadShieldUtils.createStreetTextWithShields(info.nextStreet, info.nextStreetRoadShields,
                                                                       mNextStreet.getTextSize()));
+    // The map buttons only need to clear the street bar, not the turn card on the other side.
+    if (mStreetInTurnCard)
+      return;
     int margin = dimen(mFrame.getContext(), R.dimen.nav_frame_padding);
     if (hasStreet)
       margin += mStreetFrame.getHeight();

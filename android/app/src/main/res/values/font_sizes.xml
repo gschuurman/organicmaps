@@ -64,6 +64,11 @@
   <dimen name="text_size_nav_menu_number">28sp</dimen>
   <dimen name="text_size_nav_menu_dimension">16sp</dimen>
 
+  <!-- Android Automotive OS: 24 is the minimum glanceable size, on a 4 grid -->
+  <dimen name="text_size_car_body">24sp</dimen>
+  <dimen name="text_size_car_title">32sp</dimen>
+  <dimen name="text_size_car_display">40sp</dimen>
+
   <dimen name="text_size_banner">8sp</dimen>
   <dimen name="terms_of_use_line_spacing">2sp</dimen>
   <dimen name="text_size_bookmark_all_subs_title">32sp</dimen>

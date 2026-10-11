@@ -528,7 +528,7 @@ public class MwmActivity extends BaseMwmFragmentActivity
 
     mIntentConsumed = isIntentConsumed(savedInstanceState, getIntent());
 
-    setContentView(R.layout.activity_map);
+    setContentView(Automotive.isAutomotive(this) ? R.layout.activity_map_car : R.layout.activity_map);
     makeNavigationBarTransparentInLightMode();
 
     mRoutingPlanViewModel = new ViewModelProvider(this).get(RoutingPlanViewModel.class);

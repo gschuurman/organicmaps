@@ -160,6 +160,8 @@
   <!-- Android Automotive OS, following the Android for Cars design guidelines -->
   <dimen name="car_touch_target">76dp</dimen>
   <dimen name="car_icon_size">36dp</dimen>
+  <!-- (car_touch_target - car_icon_size) / 2 -->
+  <dimen name="car_touch_target_icon_padding">20dp</dimen>
   <dimen name="car_margin">24dp</dimen>
   <dimen name="car_margin_half">12dp</dimen>
   <!-- At least 23dp between touch targets -->

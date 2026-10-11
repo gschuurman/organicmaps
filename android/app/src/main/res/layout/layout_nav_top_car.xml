@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Android Automotive OS, like Google Maps there: one turn card at the top start with the next turn, the distance
+     to it, the street and the lanes, then the turn after it and the speed limit below. -->
+<androidx.constraintlayout.widget.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/nav_top_frame"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:showIn="@layout/layout_nav_car">
+
+  <LinearLayout
+    android:id="@+id/nav_next_turn_container"
+    android:layout_width="@dimen/car_nav_panel_width"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:clipToPadding="false"
+    android:orientation="vertical"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/car_margin_half"
+      android:layout_marginTop="@dimen/car_margin_half"
+      android:layout_marginEnd="@dimen/car_margin_half"
+      android:background="@drawable/bg_car_turn_card"
+      android:elevation="@dimen/nav_elevation"
+      android:orientation="vertical">
+
+      <LinearLayout
+        android:id="@+id/nav_next_turn_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="@dimen/car_margin">
+
+        <ImageView
+          android:id="@+id/turn"
+          android:layout_width="@dimen/car_nav_turn_sign"
+          android:layout_height="@dimen/car_nav_turn_sign"
+          android:importantForAccessibility="no"
+          android:theme="?navigationTheme"
+          app:tint="?iconTint"
+          tools:src="@drawable/ic_roundabout_exit_12" />
+
+        <LinearLayout
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="@dimen/car_margin"
+          android:layout_weight="1"
+          android:orientation="vertical">
+
+          <TextView
+            android:id="@+id/distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:textAppearance="@style/MwmTextAppearance.Car.NavNextTurn"
+            tools:text="300 m" />
+
+          <FrameLayout
+            android:id="@+id/street_frame"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+              android:id="@+id/street"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:ellipsize="end"
+              android:maxLines="2"
+              android:textAppearance="@style/MwmTextAppearance.Car.NavStreet"
+              tools:text="Sample street name" />
+          </FrameLayout>
+        </LinearLayout>
+      </LinearLayout>
+
+      <app.organicmaps.sdk.widgets.lanes.LanesView
+        android:id="@+id/lanes"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/car_nav_lanes_height"
+        android:layout_marginHorizontal="@dimen/car_margin"
+        android:layout_marginBottom="@dimen/car_margin_half"
+        android:visibility="gone"
+        app:lanesActiveLaneTintColor="?navLaneArrowActiveColor"
+        app:lanesBackgroundColor="?colorAccent"
+        app:lanesCornerRadius="@dimen/margin_quarter"
+        app:lanesEditModeLanesCount="6"
+        app:lanesInactiveLaneTintColor="?navLaneArrowInactiveColor"
+        tools:visibility="visible" />
+    </LinearLayout>
+
+    <!-- The turn after the next one -->
+    <FrameLayout
+      android:id="@+id/nav_next_next_turn_frame"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="@dimen/car_margin"
+      android:background="?navNextNextTurnFrame"
+      android:elevation="@dimen/nav_elevation"
+      android:padding="@dimen/car_margin_half"
+      android:visibility="gone"
+      tools:visibility="visible">
+
+      <ImageView
+        android:id="@id/turn"
+        android:layout_width="@dimen/car_icon_size"
+        android:layout_height="@dimen/car_icon_size"
+        android:layout_gravity="center"
+        android:importantForAccessibility="no"
+        android:scaleType="fitCenter"
+        app:tint="?iconTint"
+        tools:src="@drawable/ic_then_left_sharp" />
+    </FrameLayout>
+
+    <app.organicmaps.sdk.widgets.speedlimit.SpeedLimitView
+      android:id="@+id/nav_speed_limit"
+      style="@style/MwmWidget.SpeedLimit"
+      android:layout_width="@dimen/car_touch_target"
+      android:layout_height="@dimen/car_touch_target"
+      android:layout_marginStart="@dimen/car_margin_half"
+      android:layout_marginTop="@dimen/car_margin_half" />
+  </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
